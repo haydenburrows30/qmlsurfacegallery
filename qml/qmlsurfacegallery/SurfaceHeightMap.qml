@@ -19,157 +19,167 @@ Rectangle {
     property real maxZ: 2000
     property real aspectRatioSlider : 3.0
 
-    property string color1: "pink"
+    property string color0: 'aliceblue'
+    property string color1: 'antiquewhite'
+    property string color2: 'aqua'
+    property string color3: 'aquamarine'
+    property string color4: 'azure'
+    property string color5: 'beige'
+    property string color6: 'bisque'
+    property string color7: 'black'
+    property string color8: 'blanchedalmond'
+    property string color9: 'blue'
+    property string color10: 'blueviolet'
 
     property var surfaceColor: [
-    'aliceblue',
-    'antiquewhite',
-    'aqua',
-    'aquamarine',
-    'azure',
-    'beige',
-    'bisque',
-    'black',
-    'blanchedalmond',
-    'blue',
-    'blueviolet',
-    'brown',
-    'burlywood',
-    'cadetblue',
-    'chartreuse',
-    'chocolate',
-    'coral',
-    'cornflowerblue',
-    'cornsilk',
-    'crimson',
-    'cyan',
-    'darkblue',
-    'darkcyan',
-    'darkgoldenrod',
-    'darkgray',
-    'darkgreen',
-    'darkgrey',
-    'darkkhaki',
-    'darkmagenta',
-    'darkolivegreen',
-    'darkorange',
-    'darkorchid',
-    'darkred',
-    'darksalmon',
-    'darkseagreen',
-    'darkslateblue',
-    'darkslategray',
-    'darkslategrey',
-    'darkturquoise',
-    'darkviolet',
-    'deeppink',
-    'deepskyblue',
-    'dimgray',
-    'dimgrey',
-    'dodgerblue',
-    'firebrick',
-    'floralwhite',
-    'forestgreen',
-    'fuchsia',
-    'gainsboro',
-    'ghostwhite',
-    'gold',
-    'goldenrod',
-    'gray',
-    'grey',
-    'green',
-    'greenyellow',
-    'honeydew',
-    'hotpink',
-    'indianred',
-    'indigo',
-    'ivory',
-    'khaki',
-    'lavender',
-    'lavenderblush',
-    'lawngreen',
-    'lemonchiffon',
-    'lightblue',
-    'lightcoral',
-    'lightcyan',
-    'lightgoldenrodyellow',
-    'lightgray',
-    'lightgreen',
-    'lightgrey',
-    'lightpink',
-    'lightsalmon',
-    'lightseagreen',
-    'lightskyblue',
-    'lightslategray',
-    'lightslategrey',
-    'lightsteelblue',
-    'lightyellow',
-    'lime',
-    'limegreen',
-    'linen',
-    'magenta',
-    'maroon',
-    'mediumaquamarine',
-    'mediumblue',
-    'mediumorchid',
-    'mediumpurple',
-    'mediumseagreen',
-    'mediumslateblue',
-    'mediumspringgreen',
-    'mediumturquoise',
-    'mediumvioletred',
-    'midnightblue',
-    'mintcream',
-    'mistyrose',
-    'moccasin',
-    'navajowhite',
-    'navy',
-    'oldlace',
-    'olive',
-    'olivedrab',
-    'orange',
-    'orangered',
-    'orchid',
-    'palegoldenrod',
-    'palegreen',
-    'paleturquoise',
-    'palevioletred',
-    'papayawhip',
-    'peachpuff',
-    'peru',
-    'pink',
-    'plum',
-    'powderblue',
-    'purple',
-    'red',
-    'rosybrown',
-    'royalblue',
-    'saddlebrown',
-    'salmon',
-    'sandybrown',
-    'seagreen',
-    'seashell',
-    'sienna',
-    'silver',
-    'skyblue',
-    'slateblue',
-    'slategray',
-    'slategrey',
-    'snow',
-    'springgreen',
-    'steelblue',
-    'tan',
-    'teal',
-    'thistle',
-    'tomato',
-    'turquoise',
-    'violet',
-    'wheat',
-    'white',
-    'whitesmoke',
-    'yellow',
-    'yellowgreen'
-]
+        'aliceblue',
+        'antiquewhite',
+        'aqua',
+        'aquamarine',
+        'azure',
+        'beige',
+        'bisque',
+        'black',
+        'blanchedalmond',
+        'blue',
+        'blueviolet',
+        'brown',
+        'burlywood',
+        'cadetblue',
+        'chartreuse',
+        'chocolate',
+        'coral',
+        'cornflowerblue',
+        'cornsilk',
+        'crimson',
+        'cyan',
+        'darkblue',
+        'darkcyan',
+        'darkgoldenrod',
+        'darkgray',
+        'darkgreen',
+        'darkgrey',
+        'darkkhaki',
+        'darkmagenta',
+        'darkolivegreen',
+        'darkorange',
+        'darkorchid',
+        'darkred',
+        'darksalmon',
+        'darkseagreen',
+        'darkslateblue',
+        'darkslategray',
+        'darkslategrey',
+        'darkturquoise',
+        'darkviolet',
+        'deeppink',
+        'deepskyblue',
+        'dimgray',
+        'dimgrey',
+        'dodgerblue',
+        'firebrick',
+        'floralwhite',
+        'forestgreen',
+        'fuchsia',
+        'gainsboro',
+        'ghostwhite',
+        'gold',
+        'goldenrod',
+        'gray',
+        'grey',
+        'green',
+        'greenyellow',
+        'honeydew',
+        'hotpink',
+        'indianred',
+        'indigo',
+        'ivory',
+        'khaki',
+        'lavender',
+        'lavenderblush',
+        'lawngreen',
+        'lemonchiffon',
+        'lightblue',
+        'lightcoral',
+        'lightcyan',
+        'lightgoldenrodyellow',
+        'lightgray',
+        'lightgreen',
+        'lightgrey',
+        'lightpink',
+        'lightsalmon',
+        'lightseagreen',
+        'lightskyblue',
+        'lightslategray',
+        'lightslategrey',
+        'lightsteelblue',
+        'lightyellow',
+        'lime',
+        'limegreen',
+        'linen',
+        'magenta',
+        'maroon',
+        'mediumaquamarine',
+        'mediumblue',
+        'mediumorchid',
+        'mediumpurple',
+        'mediumseagreen',
+        'mediumslateblue',
+        'mediumspringgreen',
+        'mediumturquoise',
+        'mediumvioletred',
+        'midnightblue',
+        'mintcream',
+        'mistyrose',
+        'moccasin',
+        'navajowhite',
+        'navy',
+        'oldlace',
+        'olive',
+        'olivedrab',
+        'orange',
+        'orangered',
+        'orchid',
+        'palegoldenrod',
+        'palegreen',
+        'paleturquoise',
+        'palevioletred',
+        'papayawhip',
+        'peachpuff',
+        'peru',
+        'pink',
+        'plum',
+        'powderblue',
+        'purple',
+        'red',
+        'rosybrown',
+        'royalblue',
+        'saddlebrown',
+        'salmon',
+        'sandybrown',
+        'seagreen',
+        'seashell',
+        'sienna',
+        'silver',
+        'skyblue',
+        'slateblue',
+        'slategray',
+        'slategrey',
+        'snow',
+        'springgreen',
+        'steelblue',
+        'tan',
+        'teal',
+        'thistle',
+        'tomato',
+        'turquoise',
+        'violet',
+        'wheat',
+        'white',
+        'whitesmoke',
+        'yellow',
+        'yellowgreen'
+    ]
 
     property var colorColor: {
         "aliceblue": "#f0f8ff",
@@ -331,6 +341,7 @@ Rectangle {
         anchors.margins: 10
         opacity: 0.7
 
+        // Image selection
         RowLayout{
             Layout.fillWidth: true
             Layout.minimumHeight: 50
@@ -369,6 +380,7 @@ Rectangle {
             }
         }
 
+        // Controls
         RowLayout {
             Layout.fillWidth: true
 
@@ -378,6 +390,7 @@ Rectangle {
                 title: "Draw Mode:"
                 Layout.minimumWidth: 300
                 Layout.minimumHeight: groupBox1.height
+                Layout.alignment: Qt.AlignTop
 
                 label: Label {
                     text: groupBox3.title
@@ -437,6 +450,7 @@ Rectangle {
                 id: groupBox1
                 title: "Options:"
                 Layout.minimumWidth: 300
+                Layout.alignment: Qt.AlignTop
 
                 label: Label {
                     text: groupBox1.title
@@ -609,6 +623,7 @@ Rectangle {
                 title: "XYZ:"
                 Layout.minimumHeight: groupBox1.height
                 Layout.minimumWidth: 300
+                Layout.alignment: Qt.AlignTop
 
                 label: Label {
                     text: groupBox2.title
@@ -731,7 +746,7 @@ Rectangle {
             GroupBox {
                 id: groupBox4
                 title: "Colors:"
-                Layout.minimumWidth: 300
+                Layout.minimumWidth: 350
                 Layout.minimumHeight: groupBox1.height
 
                 label: Label {
@@ -744,88 +759,352 @@ Rectangle {
                     anchors.fill: parent
 
                     RowLayout {
-                        uniformCellSizes: true
                         Layout.fillWidth: true
 
+                        Label {
+                            text: "%"
+                            color: surfacePlot.theme.labelTextColor
+                            Layout.minimumWidth: 60
+                        }
+                        Label {
+                            text: "Name"
+                            Layout.fillWidth: true 
+                            color: surfacePlot.theme.labelTextColor
+                        }
+                        Label {
+                            text: "Color"
+                            Layout.fillWidth: true
+                            color: surfacePlot.theme.labelTextColor
+                        }
+
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+
+                        Label {
+                            text: "0.0"
+                            Layout.minimumWidth: 60
+                            color: surfacePlot.theme.labelTextColor
+                        }
+
                         ComboBox {
-                            id: colorBox
+                            id: colorBox0
                             Layout.alignment: Qt.AlignTop
                             model: surfaceColor
-                            Layout.fillWidth: true
 
                             currentIndex: 0
                             onCurrentTextChanged: {
-                                chosenColor.color = currentText
+                                chosenColor0.color = currentText
+                                color0 = currentText
+                            }
+                        }
+
+                        Rectangle {
+                            id: chosenColor0
+                            Layout.alignment: Qt.AlignTop
+                            color: color0
+                            Layout.minimumHeight: colorBox0.height
+                            Layout.fillWidth: true
+                        }
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+
+                        Label {
+                            text: "0.1"; 
+                            Layout.minimumWidth: 60
+                            color: surfacePlot.theme.labelTextColor
+                            }
+
+                        ComboBox {
+                            id: colorBox1
+                            Layout.alignment: Qt.AlignTop
+                            model: surfaceColor
+
+                            currentIndex: 1
+                            onCurrentTextChanged: {
+                                chosenColor1.color = currentText
                                 color1 = currentText
                             }
                         }
 
                         Rectangle {
-                            id: chosenColor
+                            id: chosenColor1
                             Layout.alignment: Qt.AlignTop
-                            color: "pink"
-                            Layout.minimumHeight: colorBox.height
+                            color: color1
+                            Layout.minimumHeight: colorBox1.height
                             Layout.fillWidth: true
                         }
                     }
 
-                    // RowLayout {
-                    //     uniformCellSizes: true
-                    //     Layout.fillWidth: true
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label {
+                            text: "0.3"; 
+                            Layout.minimumWidth: 60
+                            color: surfacePlot.theme.labelTextColor
 
-                    //     // ComboBox {
-                    //     //     id: tetg
-                    //     //     Layout.alignment: Qt.AlignTop
-                    //     //     model: surfaceGradient
-                    //     //     Layout.fillWidth: true
+                        }
 
-                    //     //     currentIndex: 0
-                    //     //     onCurrentTextChanged: {
-                    //     //         chosenColor.color = currentText
-                    //     //         color1 = currentText
-                    //     //     }
-                    //     // }
+                        ComboBox {
+                            id: colorBox2
+                            Layout.alignment: Qt.AlignTop
+                            model: surfaceColor
 
-                    //     Button {
-                    //         text: "Change color"
-                    //         onClicked: color1 = colorBox.currentText
-                    //     }
-                    // }
-                }
-            }
+                            currentIndex: 2
+                            onCurrentTextChanged: {
+                                chosenColor2.color = currentText
+                                color2 = currentText
+                            }
+                        }
 
-            Rectangle {
-                width: 200; height: 200
+                        Rectangle {
+                            id: chosenColor2
+                            Layout.alignment: Qt.AlignTop
+                            color: "pink"
+                            Layout.minimumHeight: colorBox2.height
+                            Layout.fillWidth: true
+                        }
+                    }
 
-                ListModel {
-                    id: fruitModel
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label {
+                            text: "0.4"; 
+                            color: surfacePlot.theme.labelTextColor
+                            Layout.minimumWidth: 60
+                            }
 
-                    ListElement {
-                        color1: "aliceblue"
-                        name: '#f0f8ff'
+                        ComboBox {
+                            id: colorBox3
+                            Layout.alignment: Qt.AlignTop
+                            model: surfaceColor
+
+                            currentIndex: 3
+                            onCurrentTextChanged: {
+                                chosenColor3.color = currentText
+                                color3 = currentText
+                            }
+                        }
+
+                        Rectangle {
+                            id: chosenColor3
+                            Layout.alignment: Qt.AlignTop
+                            color: "pink"
+                            Layout.minimumHeight: colorBox3.height
+                            Layout.fillWidth: true
+                        }
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label {
+                            text: "0.5"
+                            Layout.minimumWidth: 60
+                            color: surfacePlot.theme.labelTextColor
+                        }
+
+                        ComboBox {
+                            id: colorBox4
+                            Layout.alignment: Qt.AlignTop
+                            model: surfaceColor
+
+                            currentIndex: 4
+                            onCurrentTextChanged: {
+                                chosenColor4.color = currentText
+                                color4 = currentText
+                            }
+                        }
+
+                        Rectangle {
+                            id: chosenColor4
+                            Layout.alignment: Qt.AlignTop
+                            color: "pink"
+                            Layout.minimumHeight: colorBox4.height
+                            Layout.fillWidth: true
+                        }
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label {
+                            text: "0.6"
+                            Layout.minimumWidth: 60
+                            color: surfacePlot.theme.labelTextColor
+                        }
+
+                        ComboBox {
+                            id: colorBox5
+                            Layout.alignment: Qt.AlignTop
+                            model: surfaceColor
+
+                            currentIndex: 5
+                            onCurrentTextChanged: {
+                                chosenColor5.color = currentText
+                                color5 = currentText
+                            }
+                        }
+
+                        Rectangle {
+                            id: chosenColor5
+                            Layout.alignment: Qt.AlignTop
+                            color: "pink"
+                            Layout.minimumHeight: colorBox5.height
+                            Layout.fillWidth: true
+                        }
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label {
+                            text: "0.6"
+                            color: surfacePlot.theme.labelTextColor
+                            Layout.minimumWidth: 60
+                        }
+
+                        ComboBox {
+                            id: colorBox6
+                            Layout.alignment: Qt.AlignTop
+                            model: surfaceColor
+
+                            currentIndex: 6
+                            onCurrentTextChanged: {
+                                chosenColor6.color = currentText
+                                color6 = currentText
+                            }
+                        }
+
+                        Rectangle {
+                            id: chosenColor6
+                            Layout.alignment: Qt.AlignTop
+                            color: "pink"
+                            Layout.minimumHeight: colorBox6.height
+                            Layout.fillWidth: true
+                        }
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label {
+                            text: "0.7"
+                            Layout.minimumWidth: 60
+                            color: surfacePlot.theme.labelTextColor
+                        }
+
+                        ComboBox {
+                            id: colorBox7
+                            Layout.alignment: Qt.AlignTop
+                            model: surfaceColor
+
+                            currentIndex: 7
+                            onCurrentTextChanged: {
+                                chosenColor7.color = currentText
+                                color7 = currentText
+                            }
+                        }
+
+                        Rectangle {
+                            id: chosenColor7
+                            Layout.alignment: Qt.AlignTop
+                            color: "pink"
+                            Layout.minimumHeight: colorBox7.height
+                            Layout.fillWidth: true
+                        }
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label {
+                            text: "0.8"
+                            Layout.minimumWidth: 60
+                            color: surfacePlot.theme.labelTextColor
+                        }
+
+                        ComboBox {
+                            id: colorBox8
+                            Layout.alignment: Qt.AlignTop
+                            model: surfaceColor
+
+                            currentIndex: 8
+                            onCurrentTextChanged: {
+                                chosenColor8.color = currentText
+                                color8 = currentText
+                            }
+                        }
+
+                        Rectangle {
+                            id: chosenColor8
+                            Layout.alignment: Qt.AlignTop
+                            color: "pink"
+                            Layout.minimumHeight: colorBox8.height
+                            Layout.fillWidth: true
+                        }
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label {
+                            text: "0.9"
+                            Layout.minimumWidth: 60
+                            color: surfacePlot.theme.labelTextColor}
+
+                        ComboBox {
+                            id: colorBox9
+                            Layout.alignment: Qt.AlignTop
+                            model: surfaceColor
+
+                            currentIndex: 9
+                            onCurrentTextChanged: {
+                                chosenColor9.color = currentText
+                                color9 = currentText
+                            }
+                        }
+
+                        Rectangle {
+                            id: chosenColor9
+                            Layout.alignment: Qt.AlignTop
+                            color: "pink"
+                            Layout.minimumHeight: colorBox9.height
+                            Layout.fillWidth: true
+                        }
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label {
+                            text: "1.0"
+                            Layout.minimumWidth: 60
+                            color: surfacePlot.theme.labelTextColor
+                        }
+
+                        ComboBox {
+                            id: colorBox10
+                            Layout.alignment: Qt.AlignTop
+                            model: surfaceColor
+
+                            currentIndex: 10
+                            onCurrentTextChanged: {
+                                chosenColor10.color = currentText
+                                color10 = currentText
+                            }
+                        }
+
+                        Rectangle {
+                            id: chosenColor10
+                            Layout.alignment: Qt.AlignTop
+                            color: "pink"
+                            Layout.minimumHeight: colorBox10.height
+                            Layout.fillWidth: true
+                        }
                     }
                 }
-
-                Component {
-                    id: fruitDelegate
-                    Row {
-                        spacing: 10
-                        Text { text: color1 ; width: 100}
-                        Text { text: name ; width: 100}
-                    }
-                }
-
-                ListView {
-                    anchors.fill: parent
-                    model: fruitModel
-                    delegate: fruitDelegate
-                }
             }
-
-            
         }
     }
 
+    // 3D Surface
     Item {
         id: surfaceView
         anchors.top: buttons.bottom
@@ -835,17 +1114,17 @@ Rectangle {
 
         ColorGradient {
             id: surfaceGradient
-            ColorGradientStop { position: 0.0; color: surfaceColor[1] }
-            ColorGradientStop { position: 0.1; color: surfaceColor[2] }
-            ColorGradientStop { position: 0.2; color: color1 }
-            ColorGradientStop { position: 0.3; color: surfaceColor[3] }
-            ColorGradientStop { position: 0.4; color: surfaceColor[4] }
-            ColorGradientStop { position: 0.5; color: surfaceColor[5] }
-            ColorGradientStop { position: 0.6; color: surfaceColor[6] }
-            ColorGradientStop { position: 0.7; color: surfaceColor[7] }
-            ColorGradientStop { position: 0.8; color: surfaceColor[8] }
-            ColorGradientStop { position: 0.9; color: surfaceColor[9] }
-            ColorGradientStop { position: 1.0; color: surfaceColor[10] }
+            ColorGradientStop { position: 0.0; color: color0 }
+            ColorGradientStop { position: 0.1; color: color1 }
+            ColorGradientStop { position: 0.2; color: color2 }
+            ColorGradientStop { position: 0.3; color: color3 }
+            ColorGradientStop { position: 0.4; color: color4 }
+            ColorGradientStop { position: 0.5; color: color5 }
+            ColorGradientStop { position: 0.6; color: color6 }
+            ColorGradientStop { position: 0.7; color: color7 }
+            ColorGradientStop { position: 0.8; color: color8 }
+            ColorGradientStop { position: 0.9; color: color9 }
+            ColorGradientStop { position: 1.0; color: color10 }
         }
 
         Surface3D {
@@ -1025,11 +1304,5 @@ Rectangle {
             heightMapView.statusMessage = "Error loading height map: " + error;
             heightMapView.loading = false;
         }
-    }
-
-    function insertList() {
-        for (var prop in colorColor)
-                // console.log(prop, ":", colorColor[prop])
-                fruitModel.append({"color1": prop, "name": colorColor[prop]})
     }
 }
