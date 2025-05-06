@@ -8,6 +8,8 @@ import QtQuick.Dialogs
 import QtDataVisualization
 import qmlsurfacegallery
 
+import "."
+
 ApplicationWindow {
     id: mainView
     minimumWidth: 1300
@@ -29,6 +31,26 @@ ApplicationWindow {
         TabButton {
             text: "Oscilloscope"
         }
+
+        TabButton {
+            text: "Scatter"
+        }
+
+        TabButton {
+            text: "Bars"
+        }
+
+        TabButton {
+            text: "Axes"
+        }
+
+        TabButton {
+            text: "Input"
+        }
+
+        TabButton {
+            text: "Multigraph"
+        }
     }
 
     StackLayout {
@@ -48,6 +70,31 @@ ApplicationWindow {
         }
 
         SurfaceOscilloscope {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
+
+        Scatter {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
+
+        Bars {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
+
+        Handling {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
+
+        CustomInput {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
+
+        MultiGraph {
             Layout.fillHeight: true
             Layout.fillWidth: true
         }

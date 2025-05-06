@@ -19,7 +19,7 @@ def main():
     app = QGuiApplication(sys.argv)
 
     # Set image allocation limit to a very high value for large heightmap images
-    QImageReader.setAllocationLimit(1024 * 1024 * 10)  # 10MB limit
+    QImageReader.setAllocationLimit(1024 * 1024 * 100)  # 100MB limit
 
     engine = QQmlApplicationEngine()
 

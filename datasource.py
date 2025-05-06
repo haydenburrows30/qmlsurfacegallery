@@ -166,7 +166,7 @@ class DataSource(QObject):
         self.m_partial_results = {}
         self.m_timer = QElapsedTimer()
         self.m_lod_enabled = True
-        self.max_file_size = 10 * 1024 * 1024  # 10MB in bytes
+        self.max_file_size = 100 * 1024 * 1024  # 100MB in bytes
         
         # Configure the thread pool (adjust based on your system)
         optimal_threads = max(4, QThreadPool.globalInstance().maxThreadCount() - 1)
