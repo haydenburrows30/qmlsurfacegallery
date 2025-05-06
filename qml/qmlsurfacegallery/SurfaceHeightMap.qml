@@ -384,7 +384,7 @@ Rectangle {
         RowLayout {
             Layout.fillWidth: true
 
-            // Draw mode
+            // Visuals
             GroupBox {
                 id: groupBox3
                 title: "Draw Mode:"
@@ -398,49 +398,119 @@ Rectangle {
                     elide: Text.ElideRight
                 }
 
-                RowLayout {
+                ColumnLayout {
                     anchors.fill: parent
-                    uniformCellSizes: true
 
-                    ComboBox {
-                        id: drawComboBox
-                        Layout.alignment: Qt.AlignTop
-                        model: ["Surface","Wireframe","Both"]
+                    // Draw mode
+                    RowLayout {
                         Layout.fillWidth: true
+                        uniformCellSizes: true
 
-                        currentIndex: 0
+                        ComboBox {
+                            id: drawComboBox
+                            Layout.alignment: Qt.AlignTop
+                            model: ["Surface","Wireframe","Both"]
+                            Layout.fillWidth: true
 
-                        onCurrentTextChanged: {
-                            if (currentText === "Surface") {
-                                heightSeries.drawMode = Surface3DSeries.DrawSurface
-                            } else if (currentText === "Wireframe") {
-                                heightSeries.drawMode = Surface3DSeries.DrawWireframe
-                            } else heightSeries.drawMode = Surface3DSeries.DrawSurfaceAndWireframe
+                            currentIndex: 0
+
+                            onCurrentTextChanged: {
+                                if (currentText === "Surface") {
+                                    heightSeries.drawMode = Surface3DSeries.DrawSurface
+                                } else if (currentText === "Wireframe") {
+                                    heightSeries.drawMode = Surface3DSeries.DrawWireframe
+                                } else heightSeries.drawMode = Surface3DSeries.DrawSurfaceAndWireframe
+                            }
+
                         }
 
-                    }
+                        // Wireframe color
+                        Button {
+                            id: surfaceGridColor
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignTop
+                            text: "Grid Color"
+                            enabled: heightSeries.drawMode == Surface3DSeries.DrawWireframe | heightSeries.drawMode == Surface3DSeries.DrawSurfaceAndWireframe
 
-                    // Wireframe color
-                    Button {
-                    id: surfaceGridColor
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignTop
-                    text: "Grid Color"
-                    enabled: heightSeries.drawMode == Surface3DSeries.DrawWireframe | heightSeries.drawMode == Surface3DSeries.DrawSurfaceAndWireframe
+                            onClicked: {
+                                if (Qt.colorEqual(heightSeries.wireframeColor, "#000000")) {
+                                    heightSeries.wireframeColor = "red";
+                                    text = "Black";
+                                } else {
+                                    heightSeries.wireframeColor = "black";
+                                    text = "Red";
+                                }
+                            }
 
-                    onClicked: {
-                        if (Qt.colorEqual(heightSeries.wireframeColor, "#000000")) {
-                            heightSeries.wireframeColor = "red";
-                            text = "Black";
-                        } else {
-                            heightSeries.wireframeColor = "black";
-                            text = "Red";
+                            ToolTip.text: "Enabled when surface is wireframe or both"
+                            ToolTip.visible: hovered
+                            ToolTip.delay: 500
                         }
                     }
 
-                    ToolTip.text: "Enabled when surface is wireframe or both"
-                    ToolTip.visible: hovered
-                    ToolTip.delay: 500
+                    // FPS
+                    RowLayout {
+                        Layout.fillWidth: true
+                        uniformCellSizes: true
+
+                        Label {
+                            text: "FPS: " + surfacePlot.currentFps.toFixed(0)
+                            color: surfacePlot.theme.labelTextColor
+                            Layout.fillWidth: true
+                        }
+
+                        SwitchDelegate {
+                            id: fps
+                            Layout.fillWidth: true
+
+                            checked: false
+
+                            ToolTip.text: "FPS - off or continuous"
+                            ToolTip.visible: hovered
+                            ToolTip.delay: 500
+
+                            onToggled: { 
+                                if (surfacePlot.measureFps == false) {
+                                    surfacePlot.measureFps = true
+
+                                } else {
+                                    surfacePlot.measureFps = false
+                                }
+                            }
+                        }
+                    }
+
+                    // orthoProjection
+                    RowLayout {
+                        Layout.fillWidth: true
+                        uniformCellSizes: true
+
+                        Label {
+                            text: "Ortho Projection:"
+                            color: surfacePlot.theme.labelTextColor
+                            Layout.fillWidth: true
+                        }
+
+                        SwitchDelegate {
+                            id: ortho
+                            Layout.fillWidth: true
+
+                            checked: false
+
+                            ToolTip.text: "orthoProjection - off or on"
+                            ToolTip.visible: hovered
+                            ToolTip.delay: 500
+
+                            onToggled: { 
+                                if (surfacePlot.orthoProjection == false) {
+                                    surfacePlot.orthoProjection = true
+
+                                } else {
+                                    surfacePlot.orthoProjection = false
+                                }
+                            }
+                        }
+
                     }
                 }
             }
@@ -1133,6 +1203,8 @@ Rectangle {
             height: surfaceView.height
             aspectRatio: aspectRatioSlider
             reflection: false
+            measureFps: false
+            orthoProjection: false
 
             theme: Theme3D {
                 type: Theme3D.ThemeStoneMoss

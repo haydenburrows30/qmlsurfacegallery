@@ -8,10 +8,10 @@ import QtQuick.Dialogs
 import QtDataVisualization
 import qmlsurfacegallery
 
-Window {
+ApplicationWindow {
     id: mainView
-    width: 1280
-    height: 1024
+    minimumWidth: 1300
+    minimumHeight: 1080
     visible: true
 
     TabBar {
