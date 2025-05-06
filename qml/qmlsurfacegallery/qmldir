@@ -1,0 +1,7 @@
+module qmlsurfacegallery
+ImageSelector 1.0 ImageSelector.qml
+SurfaceHeightMap 1.0 SurfaceHeightMap.qml
+SpectrogramData 1.0 SpectrogramData.qml
+SurfaceOscilloscope 1.0 SurfaceOscilloscope.qml
+SurfaceSpectrogram 1.0 SurfaceSpectrogram.qml
+

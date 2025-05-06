@@ -1,0 +1,15 @@
+<!DOCTYPE RCC>
+<RCC>
+    <qresource prefix="/">
+        <file>qml/qmlsurfacegallery/main.qml</file>
+        <file>qml/qmlsurfacegallery/SurfaceHeightMap.qml</file>
+        <file>qml/qmlsurfacegallery/SurfaceSpectrogram.qml</file>
+        <file>qml/qmlsurfacegallery/SurfaceOscilloscope.qml</file>
+        <file>qml/qmlsurfacegallery/SpectrogramData.qml</file>
+        <file>qml/qmlsurfacegallery/ImageSelector.qml</file>
+        <file>resources/heightmap.png</file>
+        <file>resources/test.png</file>
+        <file>resources/map.jpeg</file>
+        <file>resources/mountain.jpeg</file>
+    </qresource>
+</RCC>

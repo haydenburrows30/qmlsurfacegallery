@@ -1,0 +1,4 @@
+pyside6
+numpy
+pyopencl
+siphash24
