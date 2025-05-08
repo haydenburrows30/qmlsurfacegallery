@@ -103,6 +103,11 @@ ApplicationWindow {
             Layout.fillWidth: true
         }
 
+        Layers {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
+
         // Equation {
         //     Layout.fillHeight: true
         //     Layout.fillWidth: true

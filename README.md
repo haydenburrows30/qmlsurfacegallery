@@ -324,3 +324,9 @@ pyside6-rcc qmlsurfacegallery.qrc -o rc_qmlsurfacegallery.py
 ```bash
 python main.py
 ```
+
+## Code Samples
+
+1. https://code.qt.io/cgit/qt/qtdatavis3d.git/tree/examples/datavisualization?h=6.4.3
+2. https://code.qt.io/cgit/qt/qtdatavis3d.git/tree/examples/datavisualization?h=6.9.0
+3. https://doc.qt.io/qtforpython-6/examples/example_datavisualization_qmlsurfacegallery.html

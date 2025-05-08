@@ -29,7 +29,7 @@ def main():
 
     # Enable antialiasing in direct rendering mode
     surface_format = QSurfaceFormat()
-    surface_format.setSamples(4)  # Set antialiasing (4x MSAA)
+    surface_format.setSamples(8)  # Set antialiasing (8x MSAA)
     surface_format.setDepthBufferSize(24)
     QSurfaceFormat.setDefaultFormat(surface_format)
 

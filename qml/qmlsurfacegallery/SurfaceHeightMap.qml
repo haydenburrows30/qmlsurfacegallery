@@ -512,6 +512,32 @@ Rectangle {
                         }
 
                     }
+
+                    // MSAA
+                    RowLayout {
+                        Layout.minimumWidth: 250
+                        Label {
+                            text: "MSAA"
+                            color: surfacePlot.theme.labelTextColor
+                        }
+                        Slider {
+                            id: msaaSlider
+                            from: 1
+                            to: 8
+                            stepSize: 3
+                            value: 1
+                            onMoved: surfacePlot.msaaSamples = value
+
+                            ToolTip.text: "The maximum X value for the generated surface points. Defaults to 2000."
+                            ToolTip.visible: hovered
+                            ToolTip.delay: 500
+                        }
+
+                        Label {
+                            text: msaaSlider.value
+                            color: surfacePlot.theme.labelTextColor
+                        }
+                    }
                 }
             }
 
@@ -1181,7 +1207,7 @@ Rectangle {
                 }
             }
 
-            // Visuals
+            // Surface3D
             GroupBox {
                 id: groupBox5
                 title: "Test:"
@@ -1240,6 +1266,18 @@ Rectangle {
                         Layout.alignment: Qt.AlignTop
                     }
 
+                    Label {
+                        text: "Shadow supported: " + surfacePlot.shadowsSupported
+                        color: surfacePlot.theme.labelTextColor
+                        Layout.alignment: Qt.AlignTop
+                    }
+
+                    Label {
+                        text: "MSAA samples: " + surfacePlot.msaaSamples
+                        color: surfacePlot.theme.labelTextColor
+                        Layout.alignment: Qt.AlignTop
+                    }
+
 
                 }
             }
@@ -1277,6 +1315,7 @@ Rectangle {
             reflection: false
             measureFps: false
             orthoProjection: false
+            msaaSamples: 8
 
             theme: Theme3D {
                 type: Theme3D.ThemeStoneMoss

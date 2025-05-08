@@ -18,7 +18,7 @@ import QtGraphs
 // Name has been changed from #calculator.ts to calculator.js, and converted to JavaScript, to be
 // able to add it into the QML plugin
 //! [equation parser]
-import "resources/calculator.js" as Calc
+import "../../resources/calculator.js" as Calc
 //! [equation parser]
 
 pragma ComponentBehavior: Bound
@@ -333,9 +333,9 @@ Item {
                 cameraPreset: Graphs3D.CameraPreset.IsometricRight
                 cameraZoomLevel: 80
                 //! [surface segment count]
-                axisX.segmentCount: 10
-                axisZ.segmentCount: 10
-                axisY.segmentCount: 10
+                axisX.segmentCount: 20
+                axisZ.segmentCount: 20
+                axisY.segmentCount: 20
                 //! [surface segment count]
 
                 //! [surface theme]
