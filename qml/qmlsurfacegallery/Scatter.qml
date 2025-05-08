@@ -7,15 +7,11 @@ import QtDataVisualization
 Item {
     id: mainView
     //! [1]
-    width: 1600
-    height: 1200
 
-    property bool portraitMode: width < height
     // Adjust the button width based on screen orientation:
     // If we're in portrait mode, just fit two buttons side-by-side, otherwise
     // fit all of the buttons side-by-side.
-    property real buttonWidth: mainView.portraitMode ? (mainView.width / 2 - 8)
-                                                     : (mainView.width / 6 - 6)
+    property real buttonWidth:  (mainView.width / 6 - 6)
 
     //! [4]
     Data {
@@ -45,8 +41,7 @@ Item {
         width: parent.width
         // Adjust the space based on screen orientation:
         // If we're in portrait mode, we have 3 rows of buttons, otherwise they are all in one row.
-        height: parent.height - (mainView.portraitMode ? shadowToggle.implicitHeight * 3 + 25
-                                                       : shadowToggle.implicitHeight + 10)
+        height: parent.height - shadowToggle.implicitHeight + 10
         //! [8]
 
         //! [2]
@@ -161,8 +156,8 @@ Item {
     Button {
         id: cameraToggle
         width: mainView.buttonWidth
-        anchors.left: mainView.portraitMode ? parent.left : smoothToggle.right
-        anchors.top: mainView.portraitMode ? smoothToggle.bottom : parent.top
+        anchors.left: smoothToggle.right
+        anchors.top: parent.top
         anchors.margins: 5
         text: "Change Camera Placement"
         onClicked: {
@@ -179,7 +174,7 @@ Item {
         id: themeToggle
         width: mainView.buttonWidth
         anchors.left: cameraToggle.right
-        anchors.top: mainView.portraitMode ? smoothToggle.bottom : parent.top
+        anchors.top: parent.top
         anchors.margins: 5
         text: "Change Theme"
         onClicked: {
@@ -197,8 +192,8 @@ Item {
     Button {
         id: backgroundToggle
         width: mainView.buttonWidth
-        anchors.left: mainView.portraitMode ? parent.left : themeToggle.right
-        anchors.top: mainView.portraitMode ? themeToggle.bottom : parent.top
+        anchors.left: themeToggle.right
+        anchors.top: parent.top
         anchors.margins: 5
         text: "Hide Background"
         onClicked: {
@@ -216,7 +211,7 @@ Item {
         id: exitButton
         width: mainView.buttonWidth
         anchors.left: backgroundToggle.right
-        anchors.top: mainView.portraitMode ? themeToggle.bottom : parent.top
+        anchors.top: parent.top
         anchors.margins: 5
         text: "Quit"
         onClicked: Qt.quit();

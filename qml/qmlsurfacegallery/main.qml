@@ -51,6 +51,10 @@ ApplicationWindow {
         TabButton {
             text: "Multigraph"
         }
+
+        TabButton {
+            text: "Equation"
+        }
     }
 
     StackLayout {
@@ -98,5 +102,10 @@ ApplicationWindow {
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
+
+        // Equation {
+        //     Layout.fillHeight: true
+        //     Layout.fillWidth: true
+        // }
     }
 }

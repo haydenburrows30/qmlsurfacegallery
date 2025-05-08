@@ -15,8 +15,6 @@ Item {
     property int previousMouseX: -1
     property int previousMouseY: -1
 
-    required property bool portraitMode
-
     ListModel {
         id: graphModel
         ListElement{ xPos: 0.0; yPos: 0.0; zPos: 0.0; rotation: "@0,0,0,0" }
@@ -125,8 +123,8 @@ Item {
         customItemList: [
             Custom3DItem {
                 id: qtCube
-                meshFile: ":/cube.obj"
-                textureFile: ":/qml/qmlaxishandling/cubetexture.png"
+                meshFile: ":/resources/cube.obj"
+                textureFile: ":resources/cubetexture.png"
                 position: Qt.vector3d(0.65, 0.35, 0.65)
                 scaling: Qt.vector3d(0.3, 0.3, 0.3)
             }
@@ -239,7 +237,7 @@ Item {
     Button {
         id: rangeToggle
         // We're adding 3 buttons and want to divide them equally, if not in portrait mode
-        width: axisDragView.portraitMode ? parent.width : parent.width / 3
+        width: parent.width / 3
         text: "Use Preset Range"
         anchors.left: parent.left
         anchors.top: parent.top
@@ -269,10 +267,10 @@ Item {
     //! [8]
     Button {
         id: orthoToggle
-        width: axisDragView.portraitMode ? parent.width : parent.width / 3
+        width: parent.width / 3
         text: "Display Orthographic"
-        anchors.left: axisDragView.portraitMode ? parent.left : rangeToggle.right
-        anchors.top: axisDragView.portraitMode ? rangeToggle.bottom : parent.top
+        anchors.left: rangeToggle.right
+        anchors.top: parent.top
         onClicked: {
             if (scatterGraph.orthoProjection) {
                 text = "Display Orthographic";
@@ -289,10 +287,10 @@ Item {
 
     Button {
         id: exitButton
-        width: axisDragView.portraitMode ? parent.width : parent.width / 3
+        width: parent.width / 3
         text: "Quit"
-        anchors.left: axisDragView.portraitMode ? parent.left : orthoToggle.right
-        anchors.top: axisDragView.portraitMode ? orthoToggle.bottom : parent.top
+        anchors.left: orthoToggle.right
+        anchors.top: parent.top
         onClicked: Qt.quit();
     }
 }

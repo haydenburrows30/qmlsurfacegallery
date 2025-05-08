@@ -11,5 +11,12 @@
         <file>resources/test.png</file>
         <file>resources/map.jpeg</file>
         <file>resources/mountain.jpeg</file>
+        <file>resources/cube.obj</file>
+        <file>resources/cubetexture.png</file>
+        <file>resources/great_lakes.jpg</file>
+        <file>resources/map2.jpg</file>
+        <file>resources/opacitymap.png</file>
+        <file>resources/rocks.png</file>
+        <file>resources/GDEM.png</file>
     </qresource>
 </RCC>

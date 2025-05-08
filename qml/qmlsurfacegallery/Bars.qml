@@ -9,12 +9,10 @@ pragma ComponentBehavior: Bound
 
 Item {
     id: mainview
-    width: 1280
-    height: 1024
 
     property int buttonLayoutHeight: 180
     property int currentRow
-    state: Screen.width < Screen.height ? "portrait" : "landscape"
+    state: "landscape"
 
     BarsData {
         id: graphData
@@ -450,30 +448,6 @@ Item {
                 anchors.bottom: mainview.bottom
                 anchors.left: mainview.left
                 anchors.right: dataView.left
-            }
-        },
-        State  {
-            name: "portrait"
-            PropertyChanges {
-                target: dataView
-                width: mainview.width
-                height: mainview.width
-            }
-            PropertyChanges  {
-                target: tableViewLayout
-                height: mainview.width
-                anchors.right: controlLayout.left
-                anchors.left: mainview.left
-                anchors.bottom: dataView.top
-            }
-            PropertyChanges  {
-                target: controlLayout
-                width: mainview.height / 4
-                height: mainview.width / 4
-                anchors.top: mainview.top
-                anchors.bottom: dataView.top
-                anchors.left: undefined
-                anchors.right: mainview.right
             }
         }
     ]

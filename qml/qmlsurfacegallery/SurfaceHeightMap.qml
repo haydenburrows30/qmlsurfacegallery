@@ -695,6 +695,15 @@ Rectangle {
                 Layout.minimumWidth: 300
                 Layout.alignment: Qt.AlignTop
 
+                ToolTip.text: "Since height maps do not contain values for X or Z axes" +
+                ", these values need to be given separately using the minXValue, maxXValue, " +
+                "minZValue, and maxZValue properties. The X-value corresponds to the image's horizontal direction," +
+                " and the Z-value to the vertical. Setting any of these properties triggers an "+
+                "asynchronous re-resolution of any existing height map."
+
+                ToolTip.visible: hovered
+                ToolTip.delay: 500
+
                 label: Label {
                     text: groupBox2.title
                     color: surfacePlot.theme.labelTextColor
@@ -1171,6 +1180,69 @@ Rectangle {
                     }
                 }
             }
+
+            // Visuals
+            GroupBox {
+                id: groupBox5
+                title: "Test:"
+                Layout.minimumWidth: 300
+                Layout.minimumHeight: groupBox1.height
+                Layout.alignment: Qt.AlignTop
+
+                label: Label {
+                    text: groupBox5.title
+                    color: surfacePlot.theme.labelTextColor
+                    elide: Text.ElideRight
+                }
+
+                ColumnLayout {
+                    anchors.fill: parent
+
+                    Label {
+                        text: "Row Count: " + heightMapProxy.rowCount
+                        color: surfacePlot.theme.labelTextColor
+                        Layout.alignment: Qt.AlignTop
+                    }
+
+                    Label {
+                        text: "Column Count: " + heightMapProxy.columnCount
+                        color: surfacePlot.theme.labelTextColor
+                        Layout.alignment: Qt.AlignTop
+                    }
+
+                    Label {
+                        text: "Series: " + heightMapProxy.series
+                        color: surfacePlot.theme.labelTextColor
+                        Layout.alignment: Qt.AlignTop
+                    }
+
+                    Label {
+                        text: "Type: " + heightMapProxy.type
+                        color: surfacePlot.theme.labelTextColor
+                        Layout.alignment: Qt.AlignTop
+                    }
+
+                    Label {
+                        text: "Max X: " + heightMapProxy.maxXValue + "Max Y: " + heightMapProxy.maxYValue + "Max Z: " + heightMapProxy.maxZValue
+                        color: surfacePlot.theme.labelTextColor
+                        Layout.alignment: Qt.AlignTop
+                    }
+
+                    Label {
+                        text: "File: " + heightMapProxy.heightMapFile
+                        color: surfacePlot.theme.labelTextColor
+                        Layout.alignment: Qt.AlignTop
+                    }
+
+                    Label {
+                        text: "Autoscale Y: " + heightMapProxy.autoScaleY
+                        color: surfacePlot.theme.labelTextColor
+                        Layout.alignment: Qt.AlignTop
+                    }
+
+
+                }
+            }
         }
     }
 
@@ -1217,13 +1289,13 @@ Rectangle {
             shadowQuality: AbstractGraph3D.ShadowQualityLow
             selectionMode: AbstractGraph3D.SelectionSlice | AbstractGraph3D.SelectionItemAndRow
             scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricLeft
-            axisX.segmentCount: 3
-            axisX.subSegmentCount: 3
+            axisX.segmentCount: 10
+            axisX.subSegmentCount: 2
             axisX.labelFormat: "%i"
-            axisZ.segmentCount: 3
-            axisZ.subSegmentCount: 3
+            axisZ.segmentCount: 10
+            axisZ.subSegmentCount: 2
             axisZ.labelFormat: "%i"
-            axisY.segmentCount: 2
+            axisY.segmentCount: 5
             axisY.subSegmentCount: 2
             axisY.labelFormat: "%i"
             axisY.title: "y"

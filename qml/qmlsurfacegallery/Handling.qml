@@ -6,11 +6,6 @@ import "."
 
 Item {
     id: mainView
-    width: 1280
-    height: 1024
-    visible: true
-
-    property bool portraitMode: width < height
 
     TabBar {
         id: tabBar
@@ -34,7 +29,6 @@ Item {
         AxisDragging {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            portraitMode: mainView.portraitMode
         }
 
         // AxisFormatting {

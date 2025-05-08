@@ -118,8 +118,7 @@ Rectangle {
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-        height: spectrogramView.portraitMode ? (polarToggle.height + 10) * 3
-                                             : polarToggle.height + 30
+        height: polarToggle.height + 30
         anchors.margins: 10
 
         //! [3]
@@ -162,8 +161,8 @@ Rectangle {
         Button {
             id: flipGridToggle
             anchors.margins: 5
-            anchors.left: spectrogramView.portraitMode ? parent.left : orthoToggle.right
-            anchors.top: spectrogramView.portraitMode ? orthoToggle.bottom : parent.top
+            anchors.left: orthoToggle.right
+            anchors.top: parent.top
             width: spectrogramView.buttonWidth
             text: "Toggle axis\ngrid on top"
             onClicked: surfaceGraph.flipHorizontalGrid = !surfaceGraph.flipHorizontalGrid;
@@ -173,7 +172,7 @@ Rectangle {
             id: labelOffsetToggle
             anchors.margins: 5
             anchors.left: flipGridToggle.right
-            anchors.top: spectrogramView.portraitMode ? orthoToggle.bottom : parent.top
+            anchors.top: parent.top
             width: spectrogramView.buttonWidth
             text: "Toggle radial\nlabel position"
             visible: surfaceGraph.polar
@@ -188,13 +187,8 @@ Rectangle {
         Button {
             id: surfaceGridToggle
             anchors.margins: 5
-            anchors.left: spectrogramView.portraitMode ? (labelOffsetToggle.visible ? parent.left
-                                                                                    : flipGridToggle.right)
-                                                       : (labelOffsetToggle.visible ? labelOffsetToggle.right
-                                                                                    : flipGridToggle.right)
-            anchors.top: spectrogramView.portraitMode ? (labelOffsetToggle.visible ? labelOffsetToggle.bottom
-                                                                                   : orthoToggle.bottom)
-                                                      : parent.top
+            anchors.left: labelOffsetToggle.visible ? labelOffsetToggle.right : flipGridToggle.right
+            anchors.top: parent.top
             width: spectrogramView.buttonWidth
             text: "Toggle\nsurface grid"
             visible: !surfaceGraph.orthoProjection
@@ -212,7 +206,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.top: buttons.bottom
         anchors.right: parent.right
-        width: spectrogramView.portraitMode ? 100 : 125
+        width: 125
 
         Rectangle {
             id: gradient
@@ -222,7 +216,7 @@ Rectangle {
             anchors.right: legend.right
             border.color: "black"
             border.width: 1
-            width: spectrogramView.portraitMode ? 25 : 50
+            width: 50
             rotation: 180
             gradient: Gradient {
                 GradientStop { position: 0.0; color: "black" }
