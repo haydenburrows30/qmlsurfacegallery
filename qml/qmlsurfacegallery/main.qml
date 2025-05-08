@@ -88,7 +88,7 @@ ApplicationWindow {
             Layout.fillWidth: true
         }
 
-        Handling {
+        AxisDragging {
             Layout.fillHeight: true
             Layout.fillWidth: true
         }

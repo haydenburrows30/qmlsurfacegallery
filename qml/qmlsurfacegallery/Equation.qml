@@ -18,7 +18,7 @@ import QtGraphs
 // Name has been changed from #calculator.ts to calculator.js, and converted to JavaScript, to be
 // able to add it into the QML plugin
 //! [equation parser]
-import "calculator.js" as Calc
+import "resources/calculator.js" as Calc
 //! [equation parser]
 
 pragma ComponentBehavior: Bound
