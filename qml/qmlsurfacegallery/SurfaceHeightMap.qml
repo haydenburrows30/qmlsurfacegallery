@@ -515,31 +515,28 @@ Rectangle {
 
                     // MSAA
                     RowLayout {
-                        Layout.minimumWidth: 250
+                        Layout.fillWidth: true
+                        uniformCellSizes: true
+
                         Label {
                             text: "MSAA"
                             color: surfacePlot.theme.labelTextColor
+                            Layout.fillWidth: true
                         }
 
-                        TextField {
+                        SpinBox {
                             id: msaaSlider
-                            text: "4"
-                            onTextChanged: surfacePlot.msaaSamples = parseFloat(text)
+                            from: 1
+                            to: 16
+                            stepSize: 1
+                            value: 4
+                            onValueModified: surfacePlot.msaaSamples = parseFloat(value)
 
                             ToolTip.text: "The maximum X value for the generated surface points. Defaults to 2000."
                             ToolTip.visible: hovered
                             ToolTip.delay: 500
-
-
+                            Layout.fillWidth: true
                         }
-                        // Slider {
-                            
-                        // }
-
-                        // Label {
-                        //     text: msaaSlider.value
-                        //     color: surfacePlot.theme.labelTextColor
-                        // }
                     }
                 }
             }
