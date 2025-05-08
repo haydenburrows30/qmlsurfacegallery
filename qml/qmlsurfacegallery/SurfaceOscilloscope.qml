@@ -17,6 +17,13 @@ Item {
     property bool dataGenerating: false
     property bool lodEnabled: lodToggle.checked  // Level of Detail property
 
+    // Wave type enum values - must match the Python constants
+    readonly property int waveSine: 0
+    readonly property int waveCosine: 1
+    readonly property int waveRipple: 2
+    readonly property int waveExponential: 3
+    readonly property int wavePeak: 4
+
     onSampleRowsChanged: {
         surfaceSeries.selectedPoint = surfaceSeries.invalidSelectionPosition
         generateData()
@@ -39,12 +46,18 @@ Item {
         // Set LOD enabled state
         Component.onCompleted: {
             dataSource.setLodEnabled(oscilloscopeView.lodEnabled);
+            waveTypeSelector.currentIndex = dataSource.waveType;
+        }
+
+        onWaveTypeChanged: {
+            // Regenerate data when wave type changes
+            oscilloscopeView.generateData();
         }
     }
     // Controls
     Rectangle {
         id: controlArea
-        height: flatShadingToggle.implicitHeight * 2.5
+        height: flatShadingToggle.implicitHeight * 3.5  // Increased height for additional controls
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.right: parent.right
@@ -53,6 +66,7 @@ Item {
         GridLayout {
             columns: 4
             anchors.fill: parent
+            anchors.margins: 5
             uniformCellWidths: true
             uniformCellHeights: true
 
@@ -121,6 +135,48 @@ Item {
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                         color: surfaceGraph.theme.labelTextColor
+                    }
+                }
+            }
+
+            // Wave Type Selection
+            Rectangle {
+                id: waveTypeControl
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.columnSpan: 2
+
+                color: surfaceGraph.theme.windowColor
+                border.color: surfaceGraph.theme.gridLineColor
+                border.width: 1
+                radius: 4
+
+                RowLayout {
+                    anchors.centerIn: parent
+                    width: parent.width * 0.9
+                    
+                    Text {
+                        text: "Wave Type:"
+                        color: surfaceGraph.theme.labelTextColor
+                    }
+                    
+                    ComboBox {
+                        id: waveTypeSelector
+                        Layout.fillWidth: true
+                        model: ["Sine", "Cosine", "Ripple", "Exponential", "Peak"]
+                        currentIndex: 0
+                        
+                        onCurrentIndexChanged: {
+                            dataSource.waveType = currentIndex;
+                        }
+                        
+                        contentItem: Label {
+                            text: waveTypeSelector.displayText
+                            // color: surfaceGraph.theme.labelTextColor
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignLeft
+                            elide: Text.ElideRight
+                        }
                     }
                 }
             }
@@ -378,11 +434,11 @@ Item {
             axisX.max: 1000
             axisY.max: 100
             axisZ.max: 800
-            axisX.segmentCount: 4
-            axisY.segmentCount: 4
-            axisZ.segmentCount: 4
+            axisX.segmentCount: 10
+            axisY.segmentCount: 10
+            axisZ.segmentCount: 10
             measureFps: true
-            renderingMode: AbstractGraph3D.RenderDirectToBackground
+            // renderingMode: AbstractGraph3D.RenderDirectToBackground
 
             // Cache property bindings to reduce evaluation
             property real currentFpsRounded: Math.round(currentFps * (currentFps > 10 ? 1 : 10)) / (currentFps > 10 ? 1 : 10)

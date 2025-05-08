@@ -520,23 +520,26 @@ Rectangle {
                             text: "MSAA"
                             color: surfacePlot.theme.labelTextColor
                         }
-                        Slider {
+
+                        TextField {
                             id: msaaSlider
-                            from: 1
-                            to: 8
-                            stepSize: 3
-                            value: 1
-                            onMoved: surfacePlot.msaaSamples = value
+                            text: "4"
+                            onTextChanged: surfacePlot.msaaSamples = parseFloat(text)
 
                             ToolTip.text: "The maximum X value for the generated surface points. Defaults to 2000."
                             ToolTip.visible: hovered
                             ToolTip.delay: 500
-                        }
 
-                        Label {
-                            text: msaaSlider.value
-                            color: surfacePlot.theme.labelTextColor
+
                         }
+                        // Slider {
+                            
+                        // }
+
+                        // Label {
+                        //     text: msaaSlider.value
+                        //     color: surfacePlot.theme.labelTextColor
+                        // }
                     }
                 }
             }

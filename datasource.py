@@ -3,11 +3,11 @@
 from __future__ import annotations
 
 import numpy as np
-from math import sin, pi
+from math import sin, cos, pi, exp
 import os
 
 from PySide6.QtCore import (QObject, QRunnable, QThreadPool, QMutex, QMutexLocker,
-                           QRandomGenerator, Slot, Signal, QElapsedTimer)
+                           QRandomGenerator, Slot, Signal, QElapsedTimer, Property)
 from PySide6.QtQml import QmlElement
 from PySide6.QtGui import QVector3D
 from PySide6.QtDataVisualization import QSurfaceDataItem, QSurface3DSeries
@@ -25,6 +25,13 @@ QML_IMPORT_MAJOR_VERSION = 1
 # Global data cache to avoid recreating the same data
 DATA_CACHE = {}
 
+# Wave function types
+WAVE_SINE = 0
+WAVE_COSINE = 1
+WAVE_RIPPLE = 2
+WAVE_EXPONENTIAL = 3
+WAVE_PEAK = 4
+
 class DataGeneratorWorker(QRunnable):
     """Worker class for generating data in separate thread"""
     
@@ -32,7 +39,7 @@ class DataGeneratorWorker(QRunnable):
         finished = Signal(list, int)
         
     def __init__(self, row_start, row_count, column_count,
-                 x_min, x_max, y_min, y_max, z_min, z_max, cache_index):
+                 x_min, x_max, y_min, y_max, z_min, z_max, cache_index, wave_type=WAVE_SINE):
         super().__init__()
         self.row_start = row_start
         self.row_count = row_count
@@ -44,11 +51,12 @@ class DataGeneratorWorker(QRunnable):
         self.z_min = z_min
         self.z_max = z_max
         self.cache_index = cache_index
+        self.wave_type = wave_type
         self.signals = self.Signals()
         
     def run(self):
         # Create a cache key for this calculation
-        cache_key = f"{self.row_start}_{self.row_count}_{self.column_count}_{self.x_min}_{self.x_max}_{self.y_min}_{self.y_max}_{self.z_min}_{self.z_max}_{self.cache_index}"
+        cache_key = f"{self.row_start}_{self.row_count}_{self.column_count}_{self.x_min}_{self.x_max}_{self.y_min}_{self.y_max}_{self.z_min}_{self.z_max}_{self.cache_index}_{self.wave_type}"
         
         # Check if we have this data cached
         if cache_key in DATA_CACHE:
@@ -92,13 +100,13 @@ class DataGeneratorWorker(QRunnable):
         x_range_mod = x_range * col_mod
         x = x_range_mod + self.x_min
         
-        # Generate sine waves
-        col_wave = np.sin((2.0 * pi * col_mod) - (1.0 / 2.0 * pi)) + 1.0
-        
         # Generate random values once
         rand_gen = QRandomGenerator.global_()
         rand_values = np.array([rand_gen.generateDouble() for _ in range(self.row_count * self.column_count)])
         rand_values = rand_values.reshape(self.row_count, self.column_count) * 0.15
+        
+        # Calculate column wave pattern based on wave type
+        col_wave = self._calculate_wave_pattern(col_mod)
         
         # Calculate y values
         y_values = (col_wave * row_col_wave_mul) + (self.y_min + y_range_mod) + (rand_values * y_range)
@@ -113,6 +121,27 @@ class DataGeneratorWorker(QRunnable):
             cache.append(row)
         
         return cache
+
+    def _calculate_wave_pattern(self, col_mod):
+        """Calculate the wave pattern based on the selected wave type"""
+        if self.wave_type == WAVE_SINE:
+            return np.sin((2.0 * pi * col_mod) - (1.0 / 2.0 * pi)) + 1.0
+        elif self.wave_type == WAVE_COSINE:
+            return np.cos(2.0 * pi * col_mod) + 1.0
+        elif self.wave_type == WAVE_RIPPLE:
+            # Ripple pattern - distance from center
+            center = 0.5
+            distance = np.abs(col_mod - center)
+            return np.sin(10.0 * pi * distance) / (10.0 * distance + 0.2) + 1.0
+        elif self.wave_type == WAVE_EXPONENTIAL:
+            # Exponential wave
+            return 1.0 - np.exp(-(col_mod * 5)) + 0.2
+        elif self.wave_type == WAVE_PEAK:
+            # Peak function
+            return 5.0 * np.exp(-30.0 * np.power(col_mod - 0.5, 2))
+        else:
+            # Default to sine if unknown
+            return np.sin((2.0 * pi * col_mod) - (1.0 / 2.0 * pi)) + 1.0
         
     def _generate_standard(self):
         """Generate data using standard computation (fallback)"""
@@ -136,9 +165,25 @@ class DataGeneratorWorker(QRunnable):
                 colMod = (float(k)) / float(self.column_count)
                 xRangeMod = x_range * colMod
                 x = xRangeMod + self.x_min
-                colWave = sin((2.0 * pi * colMod) - (1.0 / 2.0 * pi)) + 1.0
+                
+                # Calculate wave based on wave type
+                if self.wave_type == WAVE_SINE:
+                    colWave = sin((2.0 * pi * colMod) - (1.0 / 2.0 * pi)) + 1.0
+                elif self.wave_type == WAVE_COSINE:
+                    colWave = cos(2.0 * pi * colMod) + 1.0
+                elif self.wave_type == WAVE_RIPPLE:
+                    center = 0.5
+                    distance = abs(colMod - center)
+                    colWave = sin(10.0 * pi * distance) / (10.0 * distance + 0.2) + 1.0
+                elif self.wave_type == WAVE_EXPONENTIAL:
+                    colWave = 1.0 - exp(-(colMod * 5)) + 0.2
+                elif self.wave_type == WAVE_PEAK:
+                    colWave = 2.0 * exp(-30.0 * ((colMod - 0.5) ** 2))
+                else:
+                    colWave = sin((2.0 * pi * colMod) - (1.0 / 2.0 * pi)) + 1.0
+                
                 rand_nr = rand_gen.generateDouble() * 0.15
-                y = (colWave * rowColWaveMul) + (self.y_min + yRangeMod) + (rand_nr * y_range)
+                y = (colWave * rowColWaveAngleMul) + (self.y_min + yRangeMod) + (rand_nr * y_range)
                 
                 item = QSurfaceDataItem(QVector3D(x, y, z))
                 row.append(item)
@@ -155,6 +200,7 @@ class DataSource(QObject):
     fileAccepted = Signal(str)
     dataReady = Signal()
     dataProgress = Signal(int)
+    waveTypeChanged = Signal()
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -166,12 +212,23 @@ class DataSource(QObject):
         self.m_partial_results = {}
         self.m_timer = QElapsedTimer()
         self.m_lod_enabled = True
+        self.m_wave_type = WAVE_SINE
         self.max_file_size = 100 * 1024 * 1024  # 100MB in bytes
         
         # Configure the thread pool (adjust based on your system)
         optimal_threads = max(4, QThreadPool.globalInstance().maxThreadCount() - 1)
         self.m_thread_pool.setMaxThreadCount(optimal_threads)
 
+    @Property(int, notify=waveTypeChanged)
+    def waveType(self):
+        return self.m_wave_type
+    
+    @waveType.setter
+    def waveType(self, wave_type):
+        if self.m_wave_type != wave_type:
+            self.m_wave_type = wave_type
+            self.waveTypeChanged.emit()
+    
     @Slot(str)
     def checkAndProcessFile(self, file_url):
         """Check file size and process if valid"""
@@ -216,7 +273,7 @@ class DataSource(QObject):
         self.m_timer.start()
         
         # Create a cache key for the entire dataset
-        cache_key = f"{cacheCount}_{rowCount}_{columnCount}_{xMin}_{xMax}_{yMin}_{yMax}_{zMin}_{zMax}"
+        cache_key = f"{cacheCount}_{rowCount}_{columnCount}_{xMin}_{xMax}_{yMin}_{yMax}_{zMin}_{zMax}_{self.m_wave_type}"
         
         # Check if we have the entire dataset cached
         if cache_key in DATA_CACHE:
@@ -251,7 +308,8 @@ class DataSource(QObject):
             end_index = min(i + cache_per_thread, cacheCount)
             for cache_index in range(i, end_index):
                 worker = DataGeneratorWorker(0, rowCount, columnCount, 
-                                            xMin, xMax, yMin, yMax, zMin, zMax, cache_index)
+                                            xMin, xMax, yMin, yMax, zMin, zMax, 
+                                            cache_index, self.m_wave_type)
                 worker.signals.finished.connect(self.handleWorkerResult)
                 self.m_thread_pool.start(worker)
 
@@ -265,7 +323,7 @@ class DataSource(QObject):
             
             if all_ready:
                 # Cache the result for future use
-                cache_key = f"{len(self.m_data)}_{len(self.m_data[0])}_{len(self.m_data[0][0])}"
+                cache_key = f"{len(self.m_data)}_{len(self.m_data[0])}_{len(self.m_data[0][0])}_{self.m_wave_type}"
                 DATA_CACHE[cache_key] = self.m_data
 
                 self.dataReady.emit()
