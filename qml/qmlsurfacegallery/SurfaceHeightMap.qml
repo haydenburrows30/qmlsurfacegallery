@@ -18,6 +18,7 @@ Rectangle {
     property real maxY: 2000
     property real maxZ: 2000
     property real aspectRatioSlider : 3.0
+    // property real aspectRatioSliderY : 1.0
 
     property string color0: 'aliceblue'
     property string color1: 'antiquewhite'
@@ -529,7 +530,7 @@ Rectangle {
                             from: 1
                             to: 16
                             stepSize: 1
-                            value: 4
+                            value: 8
                             onValueModified: surfacePlot.msaaSamples = parseFloat(value)
 
                             ToolTip.text: "The maximum X value for the generated surface points. Defaults to 2000."
@@ -827,7 +828,7 @@ Rectangle {
                         Slider {
                             id: aspectSlider
                             from: 1
-                            to: 5
+                            to: 50
                             stepSize: 1
                             value: aspectRatioSlider
 
@@ -844,6 +845,34 @@ Rectangle {
                             Layout.minimumWidth: 60
                         }
                     }
+
+                    // // Aspect ratio slider
+                    // RowLayout {
+                    //     Layout.minimumWidth: 250
+                    //     Label {
+                    //         text: "Asp H Ratio"
+                    //         color: surfacePlot.theme.labelTextColor
+                    //     }
+                    //     Slider {
+                    //         id: aspectSliderY
+                    //         from: 1
+                    //         to: 5
+                    //         stepSize: 1
+                    //         value: aspectRatioSliderY
+
+                    //         onMoved: aspectRatioSliderY = value
+
+                    //         ToolTip.text: "The ratio of the graph scaling between the longest axis on the horizontal plane and the y-axis. Defaults to 3.0."
+                    //         ToolTip.visible: hovered
+                    //         ToolTip.delay: 500
+                    //     }
+
+                    //     Label {
+                    //         text: aspectSliderY.value
+                    //         color: surfacePlot.theme.labelTextColor
+                    //         Layout.minimumWidth: 60
+                    //     }
+                    // }
                 }
             }
 
@@ -1343,6 +1372,8 @@ Rectangle {
             axisY.titleVisible: true
             axisX.titleVisible: true
             axisZ.titleVisible: true
+
+            // horizontalAspectRatio: aspectRatioSliderY
 
             Surface3DSeries {
                 id: heightSeries
