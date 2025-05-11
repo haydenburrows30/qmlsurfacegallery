@@ -372,7 +372,7 @@ Rectangle {
                 
                 onClicked: {
                     // Force reload current heightmap
-                    var currentFile = heightMapView.currentHeightMapFile;
+                    var currentFile = heightMapProxy.heightMapFile;
                     heightMapProxy.heightMapFile = "";
                     Qt.callLater(function() {
                         loadHeightMap(currentFile);

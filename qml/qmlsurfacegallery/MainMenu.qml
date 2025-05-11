@@ -11,7 +11,7 @@ Page {
 
     ColumnLayout {
         anchors.centerIn: parent
-        width: 200
+        width: 200 //home.width > 800 ?  home.width / 6 : home.width / 3
 
         Repeater {
             model: [{name:"Surface Height Map", url:"SurfaceHeightMap.qml"},
@@ -25,7 +25,7 @@ Page {
             {name:"Axes", url:"Axes.qml"},
             {name:"Bars", url:"Bars.qml"},
             {name:"Layers", url:"Layers.qml"}]
-            
+
             Button {
                 text: modelData.name
                 onClicked: {
