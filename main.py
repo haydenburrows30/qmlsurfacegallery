@@ -33,7 +33,7 @@ def main():
     surface_format.setDepthBufferSize(24)
     QSurfaceFormat.setDefaultFormat(surface_format)
 
-    QCoreApplication.setApplicationName("Surface Graph Gallery")
+    QCoreApplication.setApplicationName("3D Gallery")
 
     qml_file = Path(__file__).resolve().parent / "qml" / "qmlsurfacegallery" / "main.qml"
     # Load the QML file
