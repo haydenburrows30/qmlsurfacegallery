@@ -31,7 +31,6 @@ ApplicationWindow {
                 enabled: stack.depth == 2 ? true : false
             }
             Label {
-                id: menuText1
                 text: stack.depth == 2 ? menuText : "Home"
                 elide: Label.ElideRight
                 horizontalAlignment: Qt.AlignHCenter

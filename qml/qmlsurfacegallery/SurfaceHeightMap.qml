@@ -18,7 +18,6 @@ Rectangle {
     property real maxY: 2000
     property real maxZ: 2000
     property real aspectRatioSlider : 3.0
-    // property real aspectRatioSliderY : 1.0
 
     property string color0: 'aliceblue'
     property string color1: 'antiquewhite'
@@ -1397,6 +1396,7 @@ Rectangle {
                         if (heightMapFile !== "") {
                             // Reset error message when changing files
                             heightMapView.statusMessage = "";
+                            currentHeightMapFile = heightMapProxy.heightMapFile
                         }
                     }
                 }
