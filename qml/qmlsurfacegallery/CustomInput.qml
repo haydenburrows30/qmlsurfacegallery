@@ -69,7 +69,6 @@ Item {
             theme: Theme3D { type: Theme3D.ThemeDigia }
             shadowQuality: AbstractGraph3D.ShadowQualityMedium
             scene.activeCamera.yRotation: 30.0
-            inputHandler: null
 
             Scatter3DSeries {
                 id: scatterSeriesOne
@@ -115,7 +114,7 @@ Item {
             id: inputArea
             anchors.fill: parent
             hoverEnabled: true
-            acceptedButtons: Qt.LeftButton | Qt.RightButton
+            acceptedButtons: Qt.LeftButton
             property int mouseX: -1
             property int mouseY: -1
 

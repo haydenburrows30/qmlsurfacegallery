@@ -153,7 +153,6 @@ Item {
 
     Scatter3D {
         id: scatterGraph
-        inputHandler: null
 
         anchors.top: buttonLayout.bottom
         anchors.left: parent.left
@@ -198,37 +197,53 @@ Item {
                 selectedAxisLabel = -1;
             }
         }
+    }
 
-        // MouseArea {
-        //     anchors.fill: parent
-        //     hoverEnabled: true
-        //     acceptedButtons: Qt.LeftButton
+    MouseArea {
+        anchors.fill: scatterGraph
+        hoverEnabled: true
 
-        //     onPositionChanged: (mouse)=> {
-        //                         currentMouseX = mouse.x;
-        //                         currentMouseY = mouse.y;
+        onPositionChanged: (mouse)=> {
+                            currentMouseX = mouse.x;
+                            currentMouseY = mouse.y;
 
-        //                         if (pressed && selectedAxisLabel != -1)
-        //                             axisDragView.dragAxis();
+                            if (pressed && selectedAxisLabel != -1)
+                                axisDragView.dragAxis();
 
-        //                         previousMouseX = currentMouseX;
-        //                         previousMouseY = currentMouseY;
-        //                     }
+                            previousMouseX = currentMouseX;
+                            previousMouseY = currentMouseY;
+                        }
 
-        //     onPressed: (mouse)=> {
-        //                 scatterGraph.scene.selectionQueryPosition = Qt.point(mouse.x, mouse.y);
-        //             }
+        onPressed: (mouse)=> {
+                    scatterGraph.scene.selectionQueryPosition = Qt.point(mouse.x, mouse.y);
+                }
 
-        //     onReleased: {
-        //         // We need to clear mouse positions and selected axis, because touch devices cannot
-        //         // track position all the time
-        //         selectedAxisLabel = -1;
-        //         currentMouseX = -1;
-        //         currentMouseY = -1;
-        //         previousMouseX = -1;
-        //         previousMouseY = -1;
-        //     }
-        // }
+        onReleased: {
+            // We need to clear mouse positions and selected axis, because touch devices cannot
+            // track position all the time
+            selectedAxisLabel = -1;
+            currentMouseX = -1;
+            currentMouseY = -1;
+            previousMouseX = -1;
+            previousMouseY = -1;
+        }
+
+        onWheel: (wheel)=> {
+                // Adjust zoom level based on what zoom range we're in.
+                var zoomLevel = scatterGraph.scene.activeCamera.zoomLevel;
+                if (zoomLevel > 100)
+                    zoomLevel += wheel.angleDelta.y / 12.0;
+                else if (zoomLevel > 50)
+                    zoomLevel += wheel.angleDelta.y / 60.0;
+                else
+                    zoomLevel += wheel.angleDelta.y / 120.0;
+                if (zoomLevel > 500)
+                    zoomLevel = 500;
+                else if (zoomLevel < 10)
+                    zoomLevel = 10;
+
+                scatterGraph.scene.activeCamera.zoomLevel = zoomLevel;
+            }
     }
 
     function dragAxis() {
