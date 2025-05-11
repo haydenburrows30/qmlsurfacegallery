@@ -4,6 +4,10 @@
 
 QmlSurfaceGallery demonstrates different techniques for visualizing 3D surface data using Qt's DataVisualization module with Qt Quick (QML) and PySide6. The application shows three different types of 3D surface visualizations that can be accessed through tab navigation:
 
+![Image](https://github.com/user-attachments/assets/09ce971c-789b-4fae-b765-dcf6c8084178)
+![Image](https://github.com/user-attachments/assets/a3f97e45-945b-4d2b-8123-1493e523c7a6)
+![Image](https://github.com/user-attachments/assets/01dbf7fe-5470-477b-b7b4-5a8cfd880197)
+
 1. **Height Map** - A 3D terrain visualization using a height map image
 2. **Spectrogram** - A polar data visualization with color gradients
 3. **Oscilloscope** - A dynamic surface plot simulating real-time data collection
