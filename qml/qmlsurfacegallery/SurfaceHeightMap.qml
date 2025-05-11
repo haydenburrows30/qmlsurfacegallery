@@ -6,9 +6,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtDataVisualization
 
-Rectangle {
+Page {
     id: heightMapView
-    color: surfacePlot.theme.windowColor
 
     property string currentHeightMapFile: ":/resources/heightmap.png"
     property string statusMessage: ""
@@ -332,70 +331,88 @@ Rectangle {
         "yellowgreen": "#9acd32"
     }
 
-    // Buttons
-    ColumnLayout {
-        id: buttons
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.margins: 10
-        opacity: 0.7
+    // Image selection
+    header: 
+    RowLayout{
+        id: headerFile
+        height: 60
 
-        // Image selection
-        RowLayout{
+        Label {
+            id: imageLabel
+            text: "Image File:"
+            font.bold: true
+            Layout.minimumWidth: 100
+            Layout.minimumHeight: headerFile.height - 10
+            Layout.topMargin: 10
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
+
+        ImageSelector {
             Layout.fillWidth: true
-            Layout.minimumHeight: 50
+            Layout.minimumHeight: headerFile.height - 10
+            Layout.topMargin: 10
 
-            Label {
-                id: imageLabel
-                text: "Height Map:"
-                Layout.minimumWidth: 100
-                color: surfacePlot.theme.labelTextColor
-            }
-
-            ImageSelector {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-
-                onImageSelected: function(imagePath) {
-                    loadHeightMap(imagePath);
-                }
-            }
-
-            // Reload image
-            Button {
-                id: reloadButton
-                text: "Reload"
-                Layout.minimumWidth: 80
-                Layout.fillHeight: true
-                
-                onClicked: {
-                    // Force reload current heightmap
-                    var currentFile = heightMapProxy.heightMapFile;
-                    heightMapProxy.heightMapFile = "";
-                    Qt.callLater(function() {
-                        loadHeightMap(currentFile);
-                    });
-                }
+            onImageSelected: function(imagePath) {
+                loadHeightMap(imagePath);
             }
         }
 
+        // Reload image
+        Button {
+            id: reloadButton
+            text: "Reload"
+            Layout.minimumWidth: 80
+            Layout.rightMargin: 10
+            Layout.topMargin: 10
+            Layout.minimumHeight: headerFile.height - 10
+
+            onClicked: {
+                // Force reload current heightmap
+                var currentFile = heightMapProxy.heightMapFile;
+                heightMapProxy.heightMapFile = "";
+                Qt.callLater(function() {
+                    loadHeightMap(currentFile);
+                });
+            }
+        }
+
+        Button {
+            id: infoButton
+            text: "i"
+            Layout.minimumWidth: 80
+            Layout.rightMargin: 10
+            Layout.topMargin: 10
+            Layout.minimumHeight: headerFile.height - 10
+
+            onClicked: {
+                aboutFile.open()
+            }
+        }
+    }
+
+    //Main layout
+    RowLayout {
+        anchors.fill: parent
+        anchors.margins: 10
+
         // Controls
-        RowLayout {
-            Layout.fillWidth: true
+        ColumnLayout {
+            Layout.maximumWidth: 300
+            Layout.alignment: Qt.AlignTop
+            spacing: 15
 
             // Visuals
             GroupBox {
                 id: groupBox3
                 title: "Draw Mode:"
-                Layout.minimumWidth: 300
-                Layout.minimumHeight: groupBox1.height
-                Layout.alignment: Qt.AlignTop
+                Layout.fillWidth: true
+                Layout.minimumHeight: 120
 
                 label: Label {
                     text: groupBox3.title
-                    color: surfacePlot.theme.labelTextColor
                     elide: Text.ElideRight
+                    font.bold: true
                 }
 
                 ColumnLayout {
@@ -448,38 +465,6 @@ Rectangle {
                         }
                     }
 
-                    // FPS
-                    RowLayout {
-                        Layout.fillWidth: true
-                        uniformCellSizes: true
-
-                        Label {
-                            text: "FPS: " + surfacePlot.currentFps.toFixed(0)
-                            color: surfacePlot.theme.labelTextColor
-                            Layout.fillWidth: true
-                        }
-
-                        SwitchDelegate {
-                            id: fps
-                            Layout.fillWidth: true
-
-                            checked: false
-
-                            ToolTip.text: "FPS - off or continuous"
-                            ToolTip.visible: hovered
-                            ToolTip.delay: 500
-
-                            onToggled: { 
-                                if (surfacePlot.measureFps == false) {
-                                    surfacePlot.measureFps = true
-
-                                } else {
-                                    surfacePlot.measureFps = false
-                                }
-                            }
-                        }
-                    }
-
                     // orthoProjection
                     RowLayout {
                         Layout.fillWidth: true
@@ -487,7 +472,6 @@ Rectangle {
 
                         Label {
                             text: "Ortho Projection:"
-                            color: surfacePlot.theme.labelTextColor
                             Layout.fillWidth: true
                         }
 
@@ -520,7 +504,6 @@ Rectangle {
 
                         Label {
                             text: "MSAA"
-                            color: surfacePlot.theme.labelTextColor
                             Layout.fillWidth: true
                         }
 
@@ -545,13 +528,12 @@ Rectangle {
             GroupBox {
                 id: groupBox1
                 title: "Options:"
-                Layout.minimumWidth: 300
-                Layout.alignment: Qt.AlignTop
+                Layout.fillWidth: true
 
                 label: Label {
                     text: groupBox1.title
-                    color: surfacePlot.theme.labelTextColor
                     elide: Text.ElideRight
+                    font.bold: true
                 }
 
                 ColumnLayout {
@@ -563,7 +545,6 @@ Rectangle {
 
                         Label {
                             text: "Shading"
-                            color: surfacePlot.theme.labelTextColor
                             Layout.minimumWidth: 100
                         }
 
@@ -592,7 +573,6 @@ Rectangle {
                         Label {
                             id: shadSwitchLabel
                             text: heightSeries.flatShadingSupported ? "Smooth" : "Flat shading not\nsupported"
-                            color: surfacePlot.theme.labelTextColor
                             Layout.minimumWidth: 60
                         }
                     }
@@ -602,9 +582,9 @@ Rectangle {
                         Layout.minimumWidth: 250
                         Label {
                             text: "Background"
-                            color: surfacePlot.theme.labelTextColor
                             Layout.minimumWidth: 100
                         }
+
                         SwitchDelegate {
                             id: backgroundToggle
                             Layout.fillWidth: true
@@ -630,7 +610,7 @@ Rectangle {
                         Label {
                             id: backSwitchLabel
                             text: "On"
-                            color: surfacePlot.theme.labelTextColor
+                            
                             Layout.minimumWidth: 60
                         }
                     }
@@ -640,7 +620,7 @@ Rectangle {
                         Layout.minimumWidth: 250
                         Label {
                             text: "Grid"
-                            color: surfacePlot.theme.labelTextColor
+                            
                             Layout.minimumWidth: 100
                         }
                         SwitchDelegate {
@@ -668,17 +648,16 @@ Rectangle {
                         Label {
                             id: gridSwitchLabel
                             text: "On"
-                            color: surfacePlot.theme.labelTextColor
+                            
                             Layout.minimumWidth: 60
                         }
                     }
 
                     // quality
                     RowLayout {
-                        Layout.minimumWidth: 250
+                        Layout.fillWidth: true
                         Label {
                             text: "Quality"
-                            color: surfacePlot.theme.labelTextColor
                             Layout.minimumWidth: 100
                         }
                         SwitchDelegate {
@@ -706,7 +685,41 @@ Rectangle {
                         Label {
                             id: qualitySwitchLabel
                             text: "High"
-                            color: surfacePlot.theme.labelTextColor
+                            Layout.minimumWidth: 60
+                        }
+                    }
+
+                    // FPS
+                    RowLayout {
+                        Layout.fillWidth: true
+
+                        Label {
+                            text: "FPS:"
+                            Layout.minimumWidth: 100
+                        }
+
+                        SwitchDelegate {
+                            id: fps
+                            Layout.fillWidth: true
+
+                            checked: false
+
+                            ToolTip.text: "FPS - off or continuous"
+                            ToolTip.visible: hovered
+                            ToolTip.delay: 500
+
+                            onToggled: { 
+                                if (surfacePlot.measureFps == false) {
+                                    surfacePlot.measureFps = true
+
+                                } else {
+                                    surfacePlot.measureFps = false
+                                }
+                            }
+                        }
+
+                        Label {
+                            text: surfacePlot.currentFps.toFixed(0)
                             Layout.minimumWidth: 60
                         }
                     }
@@ -718,8 +731,7 @@ Rectangle {
                 id: groupBox2
                 title: "XYZ:"
                 Layout.minimumHeight: groupBox1.height
-                Layout.minimumWidth: 300
-                Layout.alignment: Qt.AlignTop
+                Layout.fillWidth: true
 
                 ToolTip.text: "Since height maps do not contain values for X or Z axes" +
                 ", these values need to be given separately using the minXValue, maxXValue, " +
@@ -732,7 +744,7 @@ Rectangle {
 
                 label: Label {
                     text: groupBox2.title
-                    color: surfacePlot.theme.labelTextColor
+                    font.bold: true
                     elide: Text.ElideRight
                 }
 
@@ -741,11 +753,11 @@ Rectangle {
 
                     // X slider
                     RowLayout {
-                        Layout.minimumWidth: 250
+                        Layout.fillWidth: true
                         Label {
                             text: "Max X"
-                            color: surfacePlot.theme.labelTextColor
                         }
+
                         Slider {
                             id: xSlider
                             from: 1
@@ -753,6 +765,7 @@ Rectangle {
                             stepSize: 1
                             value: maxX
                             onMoved: maxX = value
+                            Layout.fillWidth: true
 
                             ToolTip.text: "The maximum X value for the generated surface points. Defaults to 2000."
                             ToolTip.visible: hovered
@@ -761,16 +774,15 @@ Rectangle {
 
                         Label {
                             text: xSlider.value
-                            color: surfacePlot.theme.labelTextColor
+                            Layout.minimumWidth: 40
                         }
                     }
 
                     // Y slider
                     RowLayout {
-                        Layout.minimumWidth: 250
+                        Layout.fillWidth: true
                         Label {
                             text: "Max Y"
-                            color: surfacePlot.theme.labelTextColor
                         }
                         Slider {
                             id: ySlider
@@ -783,21 +795,22 @@ Rectangle {
                             ToolTip.text: "The maximum Y value for the generated surface points. Defaults to 2000."
                             ToolTip.visible: hovered
                             ToolTip.delay: 500
+                            Layout.fillWidth: true
                         }
 
                         Label {
                             text: ySlider.value
-                            color: surfacePlot.theme.labelTextColor
+                            Layout.minimumWidth: 40
                         }
                     }
 
                     // Z slider
                     RowLayout {
-                        Layout.minimumWidth: 250
+                        Layout.fillWidth: true
                         Label {
                             text: "Max Z"
-                            color: surfacePlot.theme.labelTextColor
                         }
+
                         Slider {
                             id: zSlider
                             from: 1
@@ -809,21 +822,22 @@ Rectangle {
                             ToolTip.text: "The maximum Z value for the generated surface points. Defaults to 2000."
                             ToolTip.visible: hovered
                             ToolTip.delay: 500
+                            Layout.fillWidth: true
                         }
 
                         Label {
                             text: zSlider.value
-                            color: surfacePlot.theme.labelTextColor
+                            Layout.minimumWidth: 40
                         }
                     }
 
                     // Aspect ratio slider
                     RowLayout {
-                        Layout.minimumWidth: 250
+                        Layout.fillWidth: true
                         Label {
                             text: "Asp Ratio"
-                            color: surfacePlot.theme.labelTextColor
                         }
+
                         Slider {
                             id: aspectSlider
                             from: 1
@@ -836,42 +850,14 @@ Rectangle {
                             ToolTip.text: "The ratio of the graph scaling between the longest axis on the horizontal plane and the y-axis. Defaults to 3.0."
                             ToolTip.visible: hovered
                             ToolTip.delay: 500
+                            Layout.fillWidth: true
                         }
 
                         Label {
                             text: aspectSlider.value
-                            color: surfacePlot.theme.labelTextColor
-                            Layout.minimumWidth: 60
+                            Layout.minimumWidth: 40
                         }
                     }
-
-                    // // Aspect ratio slider
-                    // RowLayout {
-                    //     Layout.minimumWidth: 250
-                    //     Label {
-                    //         text: "Asp H Ratio"
-                    //         color: surfacePlot.theme.labelTextColor
-                    //     }
-                    //     Slider {
-                    //         id: aspectSliderY
-                    //         from: 1
-                    //         to: 5
-                    //         stepSize: 1
-                    //         value: aspectRatioSliderY
-
-                    //         onMoved: aspectRatioSliderY = value
-
-                    //         ToolTip.text: "The ratio of the graph scaling between the longest axis on the horizontal plane and the y-axis. Defaults to 3.0."
-                    //         ToolTip.visible: hovered
-                    //         ToolTip.delay: 500
-                    //     }
-
-                    //     Label {
-                    //         text: aspectSliderY.value
-                    //         color: surfacePlot.theme.labelTextColor
-                    //         Layout.minimumWidth: 60
-                    //     }
-                    // }
                 }
             }
 
@@ -879,13 +865,13 @@ Rectangle {
             GroupBox {
                 id: groupBox4
                 title: "Colors:"
-                Layout.minimumWidth: 350
+                Layout.fillWidth: true
                 Layout.minimumHeight: groupBox1.height
 
                 label: Label {
                     text: groupBox4.title
-                    color: surfacePlot.theme.labelTextColor
                     elide: Text.ElideRight
+                    font.bold: true
                 }
 
                 ColumnLayout {
@@ -896,18 +882,15 @@ Rectangle {
 
                         Label {
                             text: "%"
-                            color: surfacePlot.theme.labelTextColor
                             Layout.minimumWidth: 60
                         }
                         Label {
                             text: "Name"
                             Layout.fillWidth: true 
-                            color: surfacePlot.theme.labelTextColor
                         }
                         Label {
                             text: "Color"
-                            Layout.fillWidth: true
-                            color: surfacePlot.theme.labelTextColor
+                            Layout.minimumWidth: 60
                         }
 
                     }
@@ -918,12 +901,11 @@ Rectangle {
                         Label {
                             text: "0.0"
                             Layout.minimumWidth: 60
-                            color: surfacePlot.theme.labelTextColor
                         }
 
                         ComboBox {
                             id: colorBox0
-                            Layout.alignment: Qt.AlignTop
+                            Layout.fillWidth: true
                             model: surfaceColor
 
                             currentIndex: 0
@@ -935,10 +917,9 @@ Rectangle {
 
                         Rectangle {
                             id: chosenColor0
-                            Layout.alignment: Qt.AlignTop
                             color: color0
                             Layout.minimumHeight: colorBox0.height
-                            Layout.fillWidth: true
+                            Layout.minimumWidth: 60
                         }
                     }
 
@@ -948,12 +929,11 @@ Rectangle {
                         Label {
                             text: "0.1"; 
                             Layout.minimumWidth: 60
-                            color: surfacePlot.theme.labelTextColor
                             }
 
                         ComboBox {
                             id: colorBox1
-                            Layout.alignment: Qt.AlignTop
+                            Layout.fillWidth: true
                             model: surfaceColor
 
                             currentIndex: 1
@@ -965,10 +945,9 @@ Rectangle {
 
                         Rectangle {
                             id: chosenColor1
-                            Layout.alignment: Qt.AlignTop
                             color: color1
                             Layout.minimumHeight: colorBox1.height
-                            Layout.fillWidth: true
+                            Layout.minimumWidth: 60
                         }
                     }
 
@@ -977,13 +956,11 @@ Rectangle {
                         Label {
                             text: "0.3"; 
                             Layout.minimumWidth: 60
-                            color: surfacePlot.theme.labelTextColor
-
                         }
 
                         ComboBox {
                             id: colorBox2
-                            Layout.alignment: Qt.AlignTop
+                            Layout.fillWidth: true
                             model: surfaceColor
 
                             currentIndex: 2
@@ -995,10 +972,9 @@ Rectangle {
 
                         Rectangle {
                             id: chosenColor2
-                            Layout.alignment: Qt.AlignTop
                             color: "pink"
                             Layout.minimumHeight: colorBox2.height
-                            Layout.fillWidth: true
+                            Layout.minimumWidth: 60
                         }
                     }
 
@@ -1006,13 +982,13 @@ Rectangle {
                         Layout.fillWidth: true
                         Label {
                             text: "0.4"; 
-                            color: surfacePlot.theme.labelTextColor
+                            
                             Layout.minimumWidth: 60
                             }
 
                         ComboBox {
                             id: colorBox3
-                            Layout.alignment: Qt.AlignTop
+                            Layout.fillWidth: true
                             model: surfaceColor
 
                             currentIndex: 3
@@ -1024,10 +1000,9 @@ Rectangle {
 
                         Rectangle {
                             id: chosenColor3
-                            Layout.alignment: Qt.AlignTop
                             color: "pink"
                             Layout.minimumHeight: colorBox3.height
-                            Layout.fillWidth: true
+                            Layout.minimumWidth: 60
                         }
                     }
 
@@ -1036,12 +1011,11 @@ Rectangle {
                         Label {
                             text: "0.5"
                             Layout.minimumWidth: 60
-                            color: surfacePlot.theme.labelTextColor
                         }
 
                         ComboBox {
                             id: colorBox4
-                            Layout.alignment: Qt.AlignTop
+                            Layout.fillWidth: true
                             model: surfaceColor
 
                             currentIndex: 4
@@ -1053,10 +1027,9 @@ Rectangle {
 
                         Rectangle {
                             id: chosenColor4
-                            Layout.alignment: Qt.AlignTop
                             color: "pink"
                             Layout.minimumHeight: colorBox4.height
-                            Layout.fillWidth: true
+                            Layout.minimumWidth: 60
                         }
                     }
 
@@ -1065,12 +1038,11 @@ Rectangle {
                         Label {
                             text: "0.6"
                             Layout.minimumWidth: 60
-                            color: surfacePlot.theme.labelTextColor
                         }
 
                         ComboBox {
                             id: colorBox5
-                            Layout.alignment: Qt.AlignTop
+                            Layout.fillWidth: true
                             model: surfaceColor
 
                             currentIndex: 5
@@ -1082,10 +1054,9 @@ Rectangle {
 
                         Rectangle {
                             id: chosenColor5
-                            Layout.alignment: Qt.AlignTop
                             color: "pink"
                             Layout.minimumHeight: colorBox5.height
-                            Layout.fillWidth: true
+                            Layout.minimumWidth: 60
                         }
                     }
 
@@ -1093,13 +1064,12 @@ Rectangle {
                         Layout.fillWidth: true
                         Label {
                             text: "0.6"
-                            color: surfacePlot.theme.labelTextColor
                             Layout.minimumWidth: 60
                         }
 
                         ComboBox {
                             id: colorBox6
-                            Layout.alignment: Qt.AlignTop
+                            Layout.fillWidth: true
                             model: surfaceColor
 
                             currentIndex: 6
@@ -1111,10 +1081,9 @@ Rectangle {
 
                         Rectangle {
                             id: chosenColor6
-                            Layout.alignment: Qt.AlignTop
                             color: "pink"
                             Layout.minimumHeight: colorBox6.height
-                            Layout.fillWidth: true
+                            Layout.minimumWidth: 60
                         }
                     }
 
@@ -1123,13 +1092,12 @@ Rectangle {
                         Label {
                             text: "0.7"
                             Layout.minimumWidth: 60
-                            color: surfacePlot.theme.labelTextColor
                         }
 
                         ComboBox {
                             id: colorBox7
-                            Layout.alignment: Qt.AlignTop
                             model: surfaceColor
+                            Layout.fillWidth: true
 
                             currentIndex: 7
                             onCurrentTextChanged: {
@@ -1140,10 +1108,9 @@ Rectangle {
 
                         Rectangle {
                             id: chosenColor7
-                            Layout.alignment: Qt.AlignTop
                             color: "pink"
                             Layout.minimumHeight: colorBox7.height
-                            Layout.fillWidth: true
+                            Layout.minimumWidth: 60
                         }
                     }
 
@@ -1152,13 +1119,12 @@ Rectangle {
                         Label {
                             text: "0.8"
                             Layout.minimumWidth: 60
-                            color: surfacePlot.theme.labelTextColor
                         }
 
                         ComboBox {
                             id: colorBox8
-                            Layout.alignment: Qt.AlignTop
                             model: surfaceColor
+                            Layout.fillWidth: true
 
                             currentIndex: 8
                             onCurrentTextChanged: {
@@ -1169,10 +1135,9 @@ Rectangle {
 
                         Rectangle {
                             id: chosenColor8
-                            Layout.alignment: Qt.AlignTop
                             color: "pink"
                             Layout.minimumHeight: colorBox8.height
-                            Layout.fillWidth: true
+                            Layout.minimumWidth: 60
                         }
                     }
 
@@ -1181,12 +1146,12 @@ Rectangle {
                         Label {
                             text: "0.9"
                             Layout.minimumWidth: 60
-                            color: surfacePlot.theme.labelTextColor}
+                            }
 
                         ComboBox {
                             id: colorBox9
-                            Layout.alignment: Qt.AlignTop
                             model: surfaceColor
+                            Layout.fillWidth: true
 
                             currentIndex: 9
                             onCurrentTextChanged: {
@@ -1197,10 +1162,9 @@ Rectangle {
 
                         Rectangle {
                             id: chosenColor9
-                            Layout.alignment: Qt.AlignTop
                             color: "pink"
                             Layout.minimumHeight: colorBox9.height
-                            Layout.fillWidth: true
+                            Layout.minimumWidth: 60
                         }
                     }
 
@@ -1209,13 +1173,13 @@ Rectangle {
                         Label {
                             text: "1.0"
                             Layout.minimumWidth: 60
-                            color: surfacePlot.theme.labelTextColor
                         }
 
                         ComboBox {
                             id: colorBox10
                             Layout.alignment: Qt.AlignTop
                             model: surfaceColor
+                            Layout.fillWidth: true
 
                             currentIndex: 10
                             onCurrentTextChanged: {
@@ -1229,232 +1193,216 @@ Rectangle {
                             Layout.alignment: Qt.AlignTop
                             color: "pink"
                             Layout.minimumHeight: colorBox10.height
-                            Layout.fillWidth: true
+                            Layout.minimumWidth: 60
+                        }
+                    }
+                }
+            }
+        }
+
+        // 3D Surface
+        Item {
+            id: surfaceView
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.leftMargin: 5
+
+            ColorGradient {
+                id: surfaceGradient
+                ColorGradientStop { position: 0.0; color: color0 }
+                ColorGradientStop { position: 0.1; color: color1 }
+                ColorGradientStop { position: 0.2; color: color2 }
+                ColorGradientStop { position: 0.3; color: color3 }
+                ColorGradientStop { position: 0.4; color: color4 }
+                ColorGradientStop { position: 0.5; color: color5 }
+                ColorGradientStop { position: 0.6; color: color6 }
+                ColorGradientStop { position: 0.7; color: color7 }
+                ColorGradientStop { position: 0.8; color: color8 }
+                ColorGradientStop { position: 0.9; color: color9 }
+                ColorGradientStop { position: 1.0; color: color10 }
+            }
+
+            Surface3D {
+                id: surfacePlot
+                width: surfaceView.width
+                height: surfaceView.height
+                aspectRatio: aspectRatioSlider
+                reflection: false
+                measureFps: false
+                orthoProjection: false
+                msaaSamples: 8
+
+                theme: Theme3D {
+                    type: Theme3D.ThemeStoneMoss
+                    font.family: "STCaiyun"
+                    font.pointSize: 35
+                    colorStyle: Theme3D.ColorStyleRangeGradient
+                    baseGradients: [surfaceGradient] // Use the custom gradient
+                }
+
+                shadowQuality: AbstractGraph3D.ShadowQualityLow
+                selectionMode: AbstractGraph3D.SelectionSlice | AbstractGraph3D.SelectionItemAndRow
+                scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricLeft
+                axisX.segmentCount: 10
+                axisX.subSegmentCount: 2
+                axisX.labelFormat: "%i"
+                axisZ.segmentCount: 10
+                axisZ.subSegmentCount: 2
+                axisZ.labelFormat: "%i"
+                axisY.segmentCount: 5
+                axisY.subSegmentCount: 2
+                axisY.labelFormat: "%i"
+                axisY.title: "y"
+                axisX.title: "x"
+                axisZ.title: "z"
+                axisY.titleVisible: true
+                axisX.titleVisible: true
+                axisZ.titleVisible: true
+
+                // horizontalAspectRatio: aspectRatioSliderY
+
+                Surface3DSeries {
+                    id: heightSeries
+                    flatShadingEnabled: false
+                    drawMode: Surface3DSeries.DrawSurface
+
+                    HeightMapSurfaceDataProxy {
+                        id: heightMapProxy
+                        heightMapFile: heightMapView.currentHeightMapFile
+                        autoScaleY: true
+
+                        minXValue: 0
+                        maxXValue: maxX
+                        minYValue: 0
+                        maxYValue: maxY
+                        minZValue: 0
+                        maxZValue: maxZ
+                        
+
+                        onHeightMapFileChanged: {
+                            if (heightMapFile !== "") {
+                                // Reset error message when changing files
+                                heightMapView.statusMessage = "";
+                                currentHeightMapFile = heightMapProxy.heightMapFile
+                            }
                         }
                     }
                 }
             }
 
-            // Surface3D
-            GroupBox {
-                id: groupBox5
-                title: "Test:"
-                Layout.minimumWidth: 300
-                Layout.minimumHeight: groupBox1.height
-                Layout.alignment: Qt.AlignTop
-
-                label: Label {
-                    text: groupBox5.title
-                    color: surfacePlot.theme.labelTextColor
-                    elide: Text.ElideRight
+            // Loading indicator
+            Rectangle {
+                anchors.centerIn: parent
+                width: 120
+                height: 40
+                color: "#AA000000"
+                radius: 5
+                visible: heightMapView.loading
+                
+                Row {
+                    anchors.centerIn: parent
+                    spacing: 10
+                    
+                    BusyIndicator {
+                        width: 30
+                        height: 30
+                        running: heightMapView.loading
+                    }
+                    
+                    Text {
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: "Loading..."
+                        color: "white"
+                        font.bold: true
+                    }
                 }
+            }
 
-                ColumnLayout {
-                    anchors.fill: parent
-
-                    Label {
-                        text: "Row Count: " + heightMapProxy.rowCount
-                        color: surfacePlot.theme.labelTextColor
-                        Layout.alignment: Qt.AlignTop
-                    }
-
-                    Label {
-                        text: "Column Count: " + heightMapProxy.columnCount
-                        color: surfacePlot.theme.labelTextColor
-                        Layout.alignment: Qt.AlignTop
-                    }
-
-                    Label {
-                        text: "Series: " + heightMapProxy.series
-                        color: surfacePlot.theme.labelTextColor
-                        Layout.alignment: Qt.AlignTop
-                    }
-
-                    Label {
-                        text: "Type: " + heightMapProxy.type
-                        color: surfacePlot.theme.labelTextColor
-                        Layout.alignment: Qt.AlignTop
-                    }
-
-                    Label {
-                        text: "Max X: " + heightMapProxy.maxXValue + "Max Y: " + heightMapProxy.maxYValue + "Max Z: " + heightMapProxy.maxZValue
-                        color: surfacePlot.theme.labelTextColor
-                        Layout.alignment: Qt.AlignTop
-                    }
-
-                    Label {
-                        text: "File: " + heightMapProxy.heightMapFile
-                        color: surfacePlot.theme.labelTextColor
-                        Layout.alignment: Qt.AlignTop
-                    }
-
-                    Label {
-                        text: "Autoscale Y: " + heightMapProxy.autoScaleY
-                        color: surfacePlot.theme.labelTextColor
-                        Layout.alignment: Qt.AlignTop
-                    }
-
-                    Label {
-                        text: "Shadow supported: " + surfacePlot.shadowsSupported
-                        color: surfacePlot.theme.labelTextColor
-                        Layout.alignment: Qt.AlignTop
-                    }
-
-                    Label {
-                        text: "MSAA samples: " + surfacePlot.msaaSamples
-                        color: surfacePlot.theme.labelTextColor
-                        Layout.alignment: Qt.AlignTop
-                    }
-
-
+            // Status message for errors
+            Rectangle {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: parent.top
+                anchors.topMargin: 10
+                width: statusText.width + 20
+                height: statusText.height + 10
+                radius: 5
+                color: "#AA000000"
+                visible: heightMapView.statusMessage !== ""
+                
+                Text {
+                    id: statusText
+                    anchors.centerIn: parent
+                    text: heightMapView.statusMessage
+                    color: "white"
+                    font.bold: true
+                }
+                
+                // Auto-hide after 5 seconds
+                Timer {
+                    running: heightMapView.statusMessage !== ""
+                    interval: 5000
+                    onTriggered: heightMapView.statusMessage = ""
                 }
             }
         }
     }
 
-    // 3D Surface
-    Item {
-        id: surfaceView
-        anchors.top: buttons.bottom
-        anchors.bottom: heightMapView.bottom
-        anchors.left: heightMapView.left
-        anchors.right: heightMapView.right
+    // Info popup
+    Popup {
+        id: aboutFile
+        height: 300
+        width: 600
+        modal: true
+        anchors.centerIn: parent
 
-        ColorGradient {
-            id: surfaceGradient
-            ColorGradientStop { position: 0.0; color: color0 }
-            ColorGradientStop { position: 0.1; color: color1 }
-            ColorGradientStop { position: 0.2; color: color2 }
-            ColorGradientStop { position: 0.3; color: color3 }
-            ColorGradientStop { position: 0.4; color: color4 }
-            ColorGradientStop { position: 0.5; color: color5 }
-            ColorGradientStop { position: 0.6; color: color6 }
-            ColorGradientStop { position: 0.7; color: color7 }
-            ColorGradientStop { position: 0.8; color: color8 }
-            ColorGradientStop { position: 0.9; color: color9 }
-            ColorGradientStop { position: 1.0; color: color10 }
-        }
+        GroupBox {
+            id: groupBox5
+            title: "Parameters:"
+            anchors.fill: parent
 
-        Surface3D {
-            id: surfacePlot
-            width: surfaceView.width
-            height: surfaceView.height
-            aspectRatio: aspectRatioSlider
-            reflection: false
-            measureFps: false
-            orthoProjection: false
-            msaaSamples: 8
-
-            theme: Theme3D {
-                type: Theme3D.ThemeStoneMoss
-                font.family: "STCaiyun"
-                font.pointSize: 35
-                colorStyle: Theme3D.ColorStyleRangeGradient
-                baseGradients: [surfaceGradient] // Use the custom gradient
+            label: Label {
+                text: groupBox5.title
+                elide: Text.ElideRight
             }
 
-            shadowQuality: AbstractGraph3D.ShadowQualityLow
-            selectionMode: AbstractGraph3D.SelectionSlice | AbstractGraph3D.SelectionItemAndRow
-            scene.activeCamera.cameraPreset: Camera3D.CameraPresetIsometricLeft
-            axisX.segmentCount: 10
-            axisX.subSegmentCount: 2
-            axisX.labelFormat: "%i"
-            axisZ.segmentCount: 10
-            axisZ.subSegmentCount: 2
-            axisZ.labelFormat: "%i"
-            axisY.segmentCount: 5
-            axisY.subSegmentCount: 2
-            axisY.labelFormat: "%i"
-            axisY.title: "y"
-            axisX.title: "x"
-            axisZ.title: "z"
-            axisY.titleVisible: true
-            axisX.titleVisible: true
-            axisZ.titleVisible: true
+            ColumnLayout {
+                anchors.fill: parent
 
-            // horizontalAspectRatio: aspectRatioSliderY
-
-            Surface3DSeries {
-                id: heightSeries
-                flatShadingEnabled: false
-                drawMode: Surface3DSeries.DrawSurface
-
-                HeightMapSurfaceDataProxy {
-                    id: heightMapProxy
-                    heightMapFile: heightMapView.currentHeightMapFile
-                    autoScaleY: true
-
-                    minXValue: 0
-                    maxXValue: maxX
-                    minYValue: 0
-                    maxYValue: maxY
-                    minZValue: 0
-                    maxZValue: maxZ
-                    
-
-                    onHeightMapFileChanged: {
-                        if (heightMapFile !== "") {
-                            // Reset error message when changing files
-                            heightMapView.statusMessage = "";
-                            currentHeightMapFile = heightMapProxy.heightMapFile
-                        }
-                    }
+                Label {
+                    text: "Row Count: " + heightMapProxy.rowCount
                 }
-            }
-        }
 
-        // Loading indicator
-        Rectangle {
-            anchors.centerIn: parent
-            width: 120
-            height: 40
-            color: "#AA000000"
-            radius: 5
-            visible: heightMapView.loading
-            
-            Row {
-                anchors.centerIn: parent
-                spacing: 10
-                
-                BusyIndicator {
-                    width: 30
-                    height: 30
-                    running: heightMapView.loading
+                Label {
+                    text: "Column Count: " + heightMapProxy.columnCount
                 }
-                
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: "Loading..."
-                    color: "white"
-                    font.bold: true
-                }
-            }
-        }
 
-        // Status message for errors
-        Rectangle {
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.top: parent.top
-            anchors.topMargin: 10
-            width: statusText.width + 20
-            height: statusText.height + 10
-            radius: 5
-            color: "#AA000000"
-            visible: heightMapView.statusMessage !== ""
-            
-            Text {
-                id: statusText
-                anchors.centerIn: parent
-                text: heightMapView.statusMessage
-                color: "white"
-                font.bold: true
-            }
-            
-            // Auto-hide after 5 seconds
-            Timer {
-                running: heightMapView.statusMessage !== ""
-                interval: 5000
-                onTriggered: heightMapView.statusMessage = ""
+                Label {
+                    text: "Series: " + heightMapProxy.series
+                }
+
+                Label {
+                    text: "Type: " + heightMapProxy.type
+                }
+
+                Label {
+                    text: "Max X: " + heightMapProxy.maxXValue + "Max Y: " + heightMapProxy.maxYValue + "Max Z: " + heightMapProxy.maxZValue
+                }
+
+                Label {
+                    text: "File: " + heightMapProxy.heightMapFile
+                }
+
+                Label {
+                    text: "Autoscale Y: " + heightMapProxy.autoScaleY
+                }
+
+                Label {
+                    text: "Shadow supported: " + surfacePlot.shadowsSupported
+                }
+
+                Label {
+                    text: "MSAA samples: " + surfacePlot.msaaSamples
+                }
             }
         }
     }

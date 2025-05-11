@@ -14,6 +14,9 @@ Rectangle {
         { name: "Map", path: ":/resources/map.jpeg" },
         { name: "Test", path: ":/resources/test.png" },
         { name: "Mountain", path: ":/resources/mountain.jpeg" },
+        { name: "Moon", path: ":/resources/MoonDEM.png" },
+        { name: "World", path: ":/resources/world.jpeg" },
+        { name: "Great Lakes", path: ":/resources/great_lakes.jpg" },
         { name: "Browse...", path: "browse" }
     ]
     property int maxFileSize: 10 * 1024 * 1024  // 10MB in bytes

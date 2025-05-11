@@ -18,6 +18,8 @@
         <file>resources/opacitymap.png</file>
         <file>resources/rocks.png</file>
         <file>resources/GDEM.png</file>
+        <file>resources/world.jpeg</file>
+        <file>resources/MoonDEM.png</file>
         <file>resources/calculator.js</file>
         <file>resources/layer_1.png</file>
         <file>resources/layer_2.png</file>

@@ -38,6 +38,7 @@ ApplicationWindow {
                 Layout.fillWidth: true
             }
             ToolButton {
+                id: fileButton
                 text: qsTr("⋮")
                 onClicked: menu.open()
             }
@@ -48,5 +49,28 @@ ApplicationWindow {
         id: stack
         anchors.fill: parent
         initialItem: "MainMenu.qml"
+    }
+
+     Menu {
+        id: menu
+        x: fileButton.x
+
+        MenuItem {
+            text: "About"
+            onClicked: about.open()
+        }
+    }
+
+    Popup {
+        id: about
+        anchors.centerIn: parent
+        width: 400
+        height: 400
+        modal: true
+
+        Text {
+            anchors.centerIn: parent
+            text: "3D Gallery"
+        } 
     }
 }
