@@ -2,7 +2,10 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 import QtQuick
+import QtQuick.Window
 import QtQuick.Controls
+import QtQuick.Dialogs
+import QtQuick.Layouts
 import QtDataVisualization
 
 Item {
@@ -75,6 +78,60 @@ Item {
         }
     }
 
+    RowLayout {
+        id: buttonLayout
+        uniformCellSizes: true
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+
+        Button {
+            id: rangeToggle
+            text: "Use Preset Range"
+            Layout.fillWidth: true
+
+            property bool autoRange: true
+            onClicked: {
+                if (autoRange) {
+                    text = "Use Automatic Range";
+                    scatterGraph.axisX.min = 0.3;
+                    scatterGraph.axisX.max = 0.7;
+                    scatterGraph.axisY.min = 0.3;
+                    scatterGraph.axisY.max = 0.7;
+                    scatterGraph.axisZ.min = 0.3;
+                    scatterGraph.axisZ.max = 0.7;
+                    autoRange = false;
+                    dragSpeedModifier = 200.0;
+                } else {
+                    text = "Use Preset Range";
+                    autoRange = true;
+                    dragSpeedModifier = 100.0;
+                }
+                scatterGraph.axisX.autoAdjustRange = autoRange;
+                scatterGraph.axisY.autoAdjustRange = autoRange;
+                scatterGraph.axisZ.autoAdjustRange = autoRange;
+            }
+        }
+
+        Button {
+            id: orthoToggle
+            text: "Display Orthographic"
+            Layout.fillWidth: true
+
+            onClicked: {
+                if (scatterGraph.orthoProjection) {
+                    text = "Display Orthographic";
+                    scatterGraph.orthoProjection = false;
+                    // Orthographic projection disables shadows, so we need to switch them back on
+                    scatterGraph.shadowQuality = AbstractGraph3D.ShadowQualityMedium
+                } else {
+                    text = "Display Perspective";
+                    scatterGraph.orthoProjection = true;
+                }
+            }
+        }
+    }
+
     Theme3D {
         id: dynamicColorTheme
         type: Theme3D.ThemeEbony
@@ -94,12 +151,15 @@ Item {
         labelTextColor: "black"
     }
 
-    //! [0]
     Scatter3D {
         id: scatterGraph
         inputHandler: null
-        //! [0]
-        anchors.fill: parent
+
+        anchors.top: buttonLayout.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+
         theme: dynamicColorTheme
         shadowQuality: AbstractGraph3D.ShadowQualityMedium
         scene.activeCamera.yRotation: 45.0
@@ -119,7 +179,7 @@ Item {
                 rotationRole: "rotation"
             }
         }
-        //! [9]
+
         customItemList: [
             Custom3DItem {
                 id: qtCube
@@ -129,8 +189,7 @@ Item {
                 scaling: Qt.vector3d(0.3, 0.3, 0.3)
             }
         ]
-        //! [9]
-        //! [5]
+
         onSelectedElementChanged: {
             if (selectedElement >= AbstractGraph3D.ElementAxisXLabel
                     && selectedElement <= AbstractGraph3D.ElementAxisZLabel) {
@@ -139,49 +198,39 @@ Item {
                 selectedAxisLabel = -1;
             }
         }
-        //! [5]
+
+        // MouseArea {
+        //     anchors.fill: parent
+        //     hoverEnabled: true
+        //     acceptedButtons: Qt.LeftButton
+
+        //     onPositionChanged: (mouse)=> {
+        //                         currentMouseX = mouse.x;
+        //                         currentMouseY = mouse.y;
+
+        //                         if (pressed && selectedAxisLabel != -1)
+        //                             axisDragView.dragAxis();
+
+        //                         previousMouseX = currentMouseX;
+        //                         previousMouseY = currentMouseY;
+        //                     }
+
+        //     onPressed: (mouse)=> {
+        //                 scatterGraph.scene.selectionQueryPosition = Qt.point(mouse.x, mouse.y);
+        //             }
+
+        //     onReleased: {
+        //         // We need to clear mouse positions and selected axis, because touch devices cannot
+        //         // track position all the time
+        //         selectedAxisLabel = -1;
+        //         currentMouseX = -1;
+        //         currentMouseY = -1;
+        //         previousMouseX = -1;
+        //         previousMouseY = -1;
+        //     }
+        // }
     }
 
-    //! [1]
-    MouseArea {
-        anchors.fill: parent
-        hoverEnabled: true
-        acceptedButtons: Qt.LeftButton
-        //! [1]
-
-        //! [3]
-        onPositionChanged: (mouse)=> {
-                               currentMouseX = mouse.x;
-                               currentMouseY = mouse.y;
-                               //! [3]
-                               //! [6]
-                               if (pressed && selectedAxisLabel != -1)
-                                   axisDragView.dragAxis();
-                               //! [6]
-                               //! [4]
-                               previousMouseX = currentMouseX;
-                               previousMouseY = currentMouseY;
-                           }
-        //! [4]
-
-        //! [2]
-        onPressed: (mouse)=> {
-                       scatterGraph.scene.selectionQueryPosition = Qt.point(mouse.x, mouse.y);
-                   }
-        //! [2]
-
-        onReleased: {
-            // We need to clear mouse positions and selected axis, because touch devices cannot
-            // track position all the time
-            selectedAxisLabel = -1;
-            currentMouseX = -1;
-            currentMouseY = -1;
-            previousMouseX = -1;
-            previousMouseY = -1;
-        }
-    }
-
-    //! [7]
     function dragAxis() {
         // Do nothing if previous mouse position is uninitialized
         if (previousMouseX === -1)
@@ -231,66 +280,5 @@ Item {
             }
             break;
         }
-    }
-    //! [7]
-
-    Button {
-        id: rangeToggle
-        // We're adding 3 buttons and want to divide them equally, if not in portrait mode
-        width: parent.width / 3
-        text: "Use Preset Range"
-        anchors.left: parent.left
-        anchors.top: parent.top
-        property bool autoRange: true
-        onClicked: {
-            if (autoRange) {
-                text = "Use Automatic Range";
-                scatterGraph.axisX.min = 0.3;
-                scatterGraph.axisX.max = 0.7;
-                scatterGraph.axisY.min = 0.3;
-                scatterGraph.axisY.max = 0.7;
-                scatterGraph.axisZ.min = 0.3;
-                scatterGraph.axisZ.max = 0.7;
-                autoRange = false;
-                dragSpeedModifier = 200.0;
-            } else {
-                text = "Use Preset Range";
-                autoRange = true;
-                dragSpeedModifier = 100.0;
-            }
-            scatterGraph.axisX.autoAdjustRange = autoRange;
-            scatterGraph.axisY.autoAdjustRange = autoRange;
-            scatterGraph.axisZ.autoAdjustRange = autoRange;
-        }
-    }
-
-    //! [8]
-    Button {
-        id: orthoToggle
-        width: parent.width / 3
-        text: "Display Orthographic"
-        anchors.left: rangeToggle.right
-        anchors.top: parent.top
-        onClicked: {
-            if (scatterGraph.orthoProjection) {
-                text = "Display Orthographic";
-                scatterGraph.orthoProjection = false;
-                // Orthographic projection disables shadows, so we need to switch them back on
-                scatterGraph.shadowQuality = AbstractGraph3D.ShadowQualityMedium
-            } else {
-                text = "Display Perspective";
-                scatterGraph.orthoProjection = true;
-            }
-        }
-    }
-    //! [8]
-
-    Button {
-        id: exitButton
-        width: parent.width / 3
-        text: "Quit"
-        anchors.left: orthoToggle.right
-        anchors.top: parent.top
-        onClicked: Qt.quit();
     }
 }

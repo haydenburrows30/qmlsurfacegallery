@@ -10,13 +10,13 @@ Rectangle {
     
     property string selectedImage: ":/resources/heightmap.png"
     property var imageList: [
-        { name: "Default Terrain", path: ":/resources/heightmap.png" },
-        { name: "Map", path: ":/resources/map.jpeg" },
-        { name: "Test", path: ":/resources/test.png" },
-        { name: "Mountain", path: ":/resources/mountain.jpeg" },
-        { name: "Moon", path: ":/resources/MoonDEM.png" },
-        { name: "World", path: ":/resources/world.jpeg" },
-        { name: "Great Lakes", path: ":/resources/great_lakes.jpg" },
+        { name: "Default Terrain", path: ":/resources/heightmap.png", tooltip: "Use aspect ratio 3" },
+        { name: "Map", path: ":/resources/map.jpeg", tooltip: "Use aspect ratio 3" },
+        { name: "Test", path: ":/resources/test.png", tooltip: "Use aspect ratio 3" },
+        { name: "Mountain", path: ":/resources/mountain.jpeg", tooltip: "Use aspect ratio 20" },
+        { name: "Moon", path: ":/resources/MoonDEM.png", tooltip: "Use aspect ratio 50"},
+        { name: "World", path: ":/resources/world.jpeg",tooltip: "Use aspect ratio 50, Max Z 1000" },
+        { name: "Great Lakes", path: ":/resources/great_lakes.jpg", tooltip: "Use aspect ratio 40+ Max Z 1000" },
         { name: "Browse...", path: "browse" }
     ]
     property int maxFileSize: 10 * 1024 * 1024  // 10MB in bytes
@@ -85,6 +85,10 @@ Rectangle {
     ComboBox {
         id: imageCombo
         anchors.fill: parent
+
+        ToolTip.visible: hovered
+        ToolTip.text: imageSelector.imageList[currentIndex].tooltip
+        ToolTip.delay: 500
         
         model: imageSelector.imageList
         textRole: "name"

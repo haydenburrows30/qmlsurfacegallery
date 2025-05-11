@@ -1,60 +1,131 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Dialogs
 import QtDataVisualization
-//! [0]
 
-//! [1]
 Item {
     id: mainView
-    //! [1]
 
-    // Adjust the button width based on screen orientation:
-    // If we're in portrait mode, just fit two buttons side-by-side, otherwise
-    // fit all of the buttons side-by-side.
-    property real buttonWidth:  (mainView.width / 6 - 6)
-
-    //! [4]
     Data {
         id: seriesData
     }
-    //! [4]
 
-    //! [13]
     Theme3D {
         id: themeQt
         type: Theme3D.ThemeQt
         font.pointSize: 40
     }
-    //! [13]
 
     Theme3D {
         id: themeRetro
         type: Theme3D.ThemeRetro
     }
 
-    //! [8]
-    //! [9]
+    RowLayout {
+        id: buttonLayout
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        uniformCellSizes: true
+
+        Button {
+            id: shadowToggle
+            Layout.fillWidth: true
+
+            text: scatterGraph.shadowsSupported ? "Hide Shadows" : "Shadows not supported"
+            enabled: scatterGraph.shadowsSupported
+            onClicked: {
+                if (scatterGraph.shadowQuality === AbstractGraph3D.ShadowQualityNone) {
+                    scatterGraph.shadowQuality = AbstractGraph3D.ShadowQualityHigh;
+                    text = "Hide Shadows";
+                } else {
+                    scatterGraph.shadowQuality = AbstractGraph3D.ShadowQualityNone;
+                    text = "Show Shadows";
+                }
+            }
+        }
+
+        Button {
+            id: smoothToggle
+            Layout.fillWidth: true
+
+            text: "Use Smooth for Series One"
+            onClicked: {
+                if (!scatterSeries.meshSmooth) {
+                    text = "Use Flat for Series One";
+                    scatterSeries.meshSmooth = true;
+                } else {
+                    text = "Use Smooth for Series One";
+                    scatterSeries.meshSmooth = false;
+                }
+            }
+        }
+
+        Button {
+            id: cameraToggle
+            Layout.fillWidth: true
+
+            text: "Change Camera Placement"
+            onClicked: {
+                if (scatterGraph.scene.activeCamera.cameraPreset === Camera3D.CameraPresetFront) {
+                    scatterGraph.scene.activeCamera.cameraPreset =
+                            Camera3D.CameraPresetIsometricRightHigh;
+                } else {
+                    scatterGraph.scene.activeCamera.cameraPreset = Camera3D.CameraPresetFront;
+                }
+            }
+        }
+
+        Button {
+            id: themeToggle
+            Layout.fillWidth: true
+
+            text: "Change Theme"
+            onClicked: {
+                if (scatterGraph.theme.type === Theme3D.ThemeRetro)
+                    scatterGraph.theme = themeQt;
+                else
+                    scatterGraph.theme = themeRetro;
+                if (scatterGraph.theme.backgroundEnabled)
+                    backgroundToggle.text = "Hide Background";
+                else
+                    backgroundToggle.text = "Show Background";
+            }
+        }
+
+        Button {
+            id: backgroundToggle
+            Layout.fillWidth: true
+
+            text: "Hide Background"
+            onClicked: {
+                if (scatterGraph.theme.backgroundEnabled) {
+                    scatterGraph.theme.backgroundEnabled = false;
+                    text = "Show Background";
+                } else {
+                    scatterGraph.theme.backgroundEnabled = true;
+                    text = "Hide Background";
+                }
+            }
+        }
+    }
+
     Item {
         id: dataView
+        anchors.top: buttonLayout.bottom
         anchors.bottom: parent.bottom
-        //! [9]
-        width: parent.width
-        // Adjust the space based on screen orientation:
-        // If we're in portrait mode, we have 3 rows of buttons, otherwise they are all in one row.
-        height: parent.height - shadowToggle.implicitHeight + 10
-        //! [8]
+        anchors.left: parent.left
+        anchors.right: parent.right
 
-        //! [2]
         Scatter3D {
             id: scatterGraph
             anchors.fill: parent
-            //! [2]
-            //! [3]
+
             theme: themeQt
             shadowQuality: AbstractGraph3D.ShadowQualityHigh
             scene.activeCamera.cameraPreset: Camera3D.CameraPresetFront
-            //! [3]
-            //! [6]
+
             axisX.segmentCount: 3
             axisX.subSegmentCount: 2
             axisX.labelFormat: "%.2f"
@@ -64,32 +135,24 @@ Item {
             axisY.segmentCount: 2
             axisY.subSegmentCount: 2
             axisY.labelFormat: "%.2f"
-            //! [6]
-            //! [5]
+
             Scatter3DSeries {
                 id: scatterSeries
-                //! [5]
-                //! [10]
                 itemLabelFormat: "Series 1: X:@xLabel Y:@yLabel Z:@zLabel"
-                //! [10]
 
-                //! [11]
                 ItemModelScatterDataProxy {
                     itemModel: seriesData.model
                     xPosRole: "xPos"
                     yPosRole: "yPos"
                     zPosRole: "zPos"
                 }
-                //! [11]
             }
 
-            //! [12]
             Scatter3DSeries {
                 id: scatterSeriesTwo
                 itemLabelFormat: "Series 2: X:@xLabel Y:@yLabel Z:@zLabel"
                 itemSize: 0.05
                 mesh: Abstract3DSeries.MeshCube
-                //! [12]
 
                 ItemModelScatterDataProxy {
                     itemModel: seriesData.modelTwo
@@ -112,108 +175,5 @@ Item {
                 }
             }
         }
-    }
-
-    //! [7]
-    Button {
-        id: shadowToggle
-        width: mainView.buttonWidth // Calculated elsewhere based on screen orientation
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.margins: 5
-        text: scatterGraph.shadowsSupported ? "Hide Shadows" : "Shadows not supported"
-        enabled: scatterGraph.shadowsSupported
-        onClicked: {
-            if (scatterGraph.shadowQuality === AbstractGraph3D.ShadowQualityNone) {
-                scatterGraph.shadowQuality = AbstractGraph3D.ShadowQualityHigh;
-                text = "Hide Shadows";
-            } else {
-                scatterGraph.shadowQuality = AbstractGraph3D.ShadowQualityNone;
-                text = "Show Shadows";
-            }
-        }
-    }
-    //! [7]
-
-    Button {
-        id: smoothToggle
-        width: mainView.buttonWidth
-        anchors.left: shadowToggle.right
-        anchors.top: parent.top
-        anchors.margins: 5
-        text: "Use Smooth for Series One"
-        onClicked: {
-            if (!scatterSeries.meshSmooth) {
-                text = "Use Flat for Series One";
-                scatterSeries.meshSmooth = true;
-            } else {
-                text = "Use Smooth for Series One";
-                scatterSeries.meshSmooth = false;
-            }
-        }
-    }
-
-    Button {
-        id: cameraToggle
-        width: mainView.buttonWidth
-        anchors.left: smoothToggle.right
-        anchors.top: parent.top
-        anchors.margins: 5
-        text: "Change Camera Placement"
-        onClicked: {
-            if (scatterGraph.scene.activeCamera.cameraPreset === Camera3D.CameraPresetFront) {
-                scatterGraph.scene.activeCamera.cameraPreset =
-                        Camera3D.CameraPresetIsometricRightHigh;
-            } else {
-                scatterGraph.scene.activeCamera.cameraPreset = Camera3D.CameraPresetFront;
-            }
-        }
-    }
-
-    Button {
-        id: themeToggle
-        width: mainView.buttonWidth
-        anchors.left: cameraToggle.right
-        anchors.top: parent.top
-        anchors.margins: 5
-        text: "Change Theme"
-        onClicked: {
-            if (scatterGraph.theme.type === Theme3D.ThemeRetro)
-                scatterGraph.theme = themeQt;
-            else
-                scatterGraph.theme = themeRetro;
-            if (scatterGraph.theme.backgroundEnabled)
-                backgroundToggle.text = "Hide Background";
-            else
-                backgroundToggle.text = "Show Background";
-        }
-    }
-
-    Button {
-        id: backgroundToggle
-        width: mainView.buttonWidth
-        anchors.left: themeToggle.right
-        anchors.top: parent.top
-        anchors.margins: 5
-        text: "Hide Background"
-        onClicked: {
-            if (scatterGraph.theme.backgroundEnabled) {
-                scatterGraph.theme.backgroundEnabled = false;
-                text = "Show Background";
-            } else {
-                scatterGraph.theme.backgroundEnabled = true;
-                text = "Hide Background";
-            }
-        }
-    }
-
-    Button {
-        id: exitButton
-        width: mainView.buttonWidth
-        anchors.left: backgroundToggle.right
-        anchors.top: parent.top
-        anchors.margins: 5
-        text: "Quit"
-        onClicked: Qt.quit();
     }
 }

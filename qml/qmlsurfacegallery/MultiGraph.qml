@@ -5,25 +5,47 @@ import QtQuick.Dialogs
 import QtDataVisualization
 import "."
 
-Rectangle {
+Item {
     id: mainView
-    width: 800
-    height: 600
 
     GraphData {
         id: data
     }
 
-    //! [0]
+    RowLayout {
+        id: buttonLayout
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+
+        uniformCellSizes: true
+
+        Button {
+            Layout.fillWidth: true
+            text: "Clear Selections"
+            onClicked: clearSelections() // call a helper function to keep button itself simpler
+        }
+
+        Button {
+            Layout.fillWidth: true
+            text: "Reset Cameras"
+            onClicked: resetCameras() // call a helper function to keep button itself simpler
+        }
+
+        Button {
+            Layout.fillWidth: true
+            text: "Toggle Mesh Styles"
+            onClicked: toggleMeshStyle() // call a helper function to keep button itself simpler
+        }
+    }
+
     GridLayout {
         id: gridLayout
         columns: 2
-        Layout.fillHeight: true
-        Layout.fillWidth: true
-        anchors.top: mainView.top
-        anchors.bottom: mainView.bottom
-        anchors.left: mainView.left
-        anchors.right: mainView.right
+        anchors.top: buttonLayout.bottom
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
 
         Rectangle {
             Layout.fillHeight: true
@@ -53,50 +75,6 @@ Rectangle {
                         zPosRole: "longitude"
                         yPosRole: "pop_density"
                     }
-                }
-            }
-        }
-
-        // We'll use one grid cell for buttons
-        Rectangle {
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-
-            GridLayout {
-                anchors.right: parent.right
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                columns: 2
-
-                Button {
-                    Layout.minimumWidth: parent.width / 2
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    text: "Clear Selections"
-                    onClicked: clearSelections() // call a helper function to keep button itself simpler
-                }
-
-                Button {
-                    Layout.minimumWidth: parent.width / 2
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    text: "Quit"
-                    onClicked: Qt.quit(0);
-                }
-
-                Button {
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    text: "Reset Cameras"
-                    onClicked: resetCameras() // call a helper function to keep button itself simpler
-                }
-
-                Button {
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    text: "Toggle Mesh Styles"
-                    onClicked: toggleMeshStyle() // call a helper function to keep button itself simpler
                 }
             }
         }
@@ -162,7 +140,6 @@ Rectangle {
             }
         }
     }
-    //! [0]
 
     function clearSelections() {
         barGraph.clearSelection()
