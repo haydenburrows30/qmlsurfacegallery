@@ -145,15 +145,15 @@ Item {
                     font.bold: true
                     font.pixelSize: 15
                     Layout.margins: -15
-                    ToolTip {
-                        visible: tooltip.containsMouse
-                        text: "Supported operators: '+', '-', '*', '/', '%', '^'.\nSupported functions: 'sin', 'cos', 'tan', 'log', 'exp', 'sqrt'.\nx and y are the only supported arguments."
-                    }
-                    MouseArea {
-                        id: tooltip
-                        anchors.fill: parent
-                        hoverEnabled: true
-                    }
+                    // ToolTip {
+                    //     visible: tooltip.containsMouse
+                    //     text: "Supported operators: '+', '-', '*', '/', '%', '^'.\nSupported functions: 'sin', 'cos', 'tan', 'log', 'exp', 'sqrt'.\nx and y are the only supported arguments."
+                    // }
+                    // MouseArea {
+                    //     id: tooltip
+                    //     anchors.fill: parent
+                    //     hoverEnabled: true
+                    // }
                 }
 
                 TextField {

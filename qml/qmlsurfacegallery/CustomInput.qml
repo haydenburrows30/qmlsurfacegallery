@@ -5,10 +5,8 @@ import QtQuick.Dialogs
 import QtDataVisualization
 import "."
 
-Rectangle {
+Item {
     id: mainView
-    width: 1280
-    height: 720
 
     InputData {
         id: graphData
@@ -42,7 +40,7 @@ Rectangle {
         Button {
             id: cameraToggle
             Layout.fillWidth: true
-            
+
             text: "Pause Camera"
 
             onClicked: {

@@ -335,7 +335,7 @@ Page {
     header: 
     RowLayout{
         id: headerFile
-        height: 60
+        height: 50
 
         Label {
             id: imageLabel
@@ -363,7 +363,6 @@ Page {
             id: reloadButton
             text: "Reload"
             Layout.minimumWidth: 80
-            Layout.rightMargin: 10
             Layout.topMargin: 10
             Layout.minimumHeight: headerFile.height - 10
 
@@ -380,7 +379,7 @@ Page {
         Button {
             id: infoButton
             text: "i"
-            Layout.minimumWidth: 80
+            Layout.maximumWidth: 50
             Layout.rightMargin: 10
             Layout.topMargin: 10
             Layout.minimumHeight: headerFile.height - 10
@@ -1259,8 +1258,6 @@ Page {
                 axisX.titleVisible: true
                 axisZ.titleVisible: true
 
-                // horizontalAspectRatio: aspectRatioSliderY
-
                 Surface3DSeries {
                     id: heightSeries
                     flatShadingEnabled: false
@@ -1277,7 +1274,6 @@ Page {
                         maxYValue: maxY
                         minZValue: 0
                         maxZValue: maxZ
-                        
 
                         onHeightMapFileChanged: {
                             if (heightMapFile !== "") {

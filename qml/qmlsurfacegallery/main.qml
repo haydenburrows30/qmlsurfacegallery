@@ -25,9 +25,10 @@ ApplicationWindow {
                 id: back
                 text: stack.depth == 2 ? qsTr("‹") : qsTr("Home")
                 onClicked: stack.popToIndex(0)
+                Layout.minimumWidth: 40
                 ToolTip.delay: 500
                 ToolTip.visible: hovered
-                ToolTip.text: stack.depth == 2 ? "Return to main menu" : ""
+                ToolTip.text: stack.depth == 2 ? "Return to main menu" : "Home"
                 enabled: stack.depth == 2 ? true : false
             }
             Label {
