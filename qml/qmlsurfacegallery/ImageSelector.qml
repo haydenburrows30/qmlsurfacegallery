@@ -10,16 +10,19 @@ Rectangle {
     
     property string selectedImage: ":/resources/heightmap.png"
     property var imageList: [
-        { name: "Default Terrain", path: ":/resources/heightmap.png", tooltip: "Use aspect ratio 3" },
-        { name: "Map", path: ":/resources/map.jpeg", tooltip: "Use aspect ratio 3" },
-        { name: "Test", path: ":/resources/test.png", tooltip: "Use aspect ratio 3" },
-        { name: "Mountain", path: ":/resources/mountain.jpeg", tooltip: "Use aspect ratio 20" },
-        { name: "Moon", path: ":/resources/MoonDEM.png", tooltip: "Use aspect ratio 50"},
-        { name: "World", path: ":/resources/world.jpeg",tooltip: "Use aspect ratio 50, Max Z 1000" },
-        { name: "Great Lakes", path: ":/resources/great_lakes.jpg", tooltip: "Use aspect ratio 40+ Max Z 1000" },
+        { name: "Default Terrain", path: ":/resources/heightmap.png", tooltip: "Use aspect ratio 3", maxZ: 2000, aspratio: 3 },
+        { name: "Map", path: ":/resources/map.jpeg", tooltip: "Use aspect ratio 3", maxZ: 2000, aspratio: 3 },
+        { name: "Test", path: ":/resources/test.png", tooltip: "Use aspect ratio 3", maxZ: 2000, aspratio: 3 },
+        { name: "Mountain", path: ":/resources/mountain.jpeg", tooltip: "Use aspect ratio 20", maxZ: 1000, aspratio: 20 },
+        { name: "Moon", path: ":/resources/MoonDEM.png", tooltip: "Use aspect ratio 50", maxZ: 1000, aspratio: 50},
+        { name: "World", path: ":/resources/world.jpeg",tooltip: "Use aspect ratio 50, Max Z 1000", maxZ: 1000, aspratio: 50 },
+        { name: "Great Lakes", path: ":/resources/great_lakes.jpg", tooltip: "Use aspect ratio 40+ Max Z 1000", maxZ: 1000, aspratio: 40 },
         { name: "Browse...", path: "browse" }
     ]
-    property int maxFileSize: 10 * 1024 * 1024  // 10MB in bytes
+    property int maxFileSize: 100 * 1024 * 1024  // 100MB in bytes
+
+    property real maxZ: imageSelector.imageList[imageCombo.currentIndex].maxZ
+    property real aspRatio: imageSelector.imageList[imageCombo.currentIndex].aspratio
     
     signal imageSelected(string imagePath)
     

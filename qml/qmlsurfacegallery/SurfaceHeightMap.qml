@@ -15,8 +15,8 @@ Page {
 
     property real maxX: 2000
     property real maxY: 2000
-    property real maxZ: 2000
-    property real aspectRatioSlider : 3.0
+    property real maxZ: imageSelector.maxZ ? imageSelector.maxZ : 2000
+    property real aspectRatioSlider: imageSelector.aspRatio ? imageSelector.aspRatio : 3.0
 
     property string color0: 'aliceblue'
     property string color1: 'antiquewhite'
@@ -349,6 +349,7 @@ Page {
         }
 
         ImageSelector {
+            id: imageSelector
             Layout.fillWidth: true
             Layout.minimumHeight: headerFile.height - 10
             Layout.topMargin: 10
@@ -356,6 +357,8 @@ Page {
             onImageSelected: function(imagePath) {
                 loadHeightMap(imagePath);
             }
+
+            // maxZ: 2000
         }
 
         // Reload image

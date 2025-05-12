@@ -438,7 +438,6 @@ Item {
             axisY.segmentCount: 10
             axisZ.segmentCount: 10
             measureFps: true
-            // renderingMode: AbstractGraph3D.RenderDirectToBackground
 
             // Cache property bindings to reduce evaluation
             property real currentFpsRounded: Math.round(currentFps * (currentFps > 10 ? 1 : 10)) / (currentFps > 10 ? 1 : 10)
