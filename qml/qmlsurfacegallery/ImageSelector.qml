@@ -15,7 +15,7 @@ Rectangle {
         { name: "Test", path: ":/resources/test.png", tooltip: "Use aspect ratio 3", maxZ: 2000, aspratio: 3 },
         { name: "Mountain", path: ":/resources/mountain.jpeg", tooltip: "Use aspect ratio 20", maxZ: 1000, aspratio: 20 },
         { name: "Moon", path: ":/resources/MoonDEM.png", tooltip: "Use aspect ratio 50", maxZ: 1000, aspratio: 50},
-        { name: "World", path: ":/resources/world.jpeg",tooltip: "Use aspect ratio 50, Max Z 1000", maxZ: 1000, aspratio: 50 },
+        { name: "World", path: ":/resources/world.jpeg",tooltip: "Use aspect ratio 50, max Z 1000", maxZ: 1000, aspratio: 50 },
         { name: "Great Lakes", path: ":/resources/great_lakes.jpg", tooltip: "Use aspect ratio 40+ Max Z 1000", maxZ: 1000, aspratio: 40 },
         { name: "Browse...", path: "browse" }
     ]
